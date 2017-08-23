@@ -1,0 +1,15 @@
+
+#define __HYDRUS_BEGIN namespace Hydrus {
+#define __HYDRUS_END }
+
+#define __HYDRUS_PLATFORM_BEGIN namespace Hydrus { namespace P {
+#define __HYDRUS_PLATFORM_END } }
+
+#cmakedefine HYDRUS_P_HAS_STDLIB
+#ifdef HYDRUS_P_HAS_STDLIB
+
+#include <stdint.h>
+#include <stddef.h>
+#include <sys/types.h>
+
+#endif

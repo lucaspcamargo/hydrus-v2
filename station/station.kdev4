@@ -1,0 +1,4 @@
+[Project]
+CreatedFrom=station-app.pro
+Manager=KDevQMakeManager
+Name=station
