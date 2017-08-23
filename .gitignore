@@ -1,0 +1,7 @@
+build/
+**.kdev4
+**.so
+**.o
+**.a
+**.ar
+**.kate-swp
