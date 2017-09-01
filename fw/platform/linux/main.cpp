@@ -4,6 +4,7 @@
 
 __HYDRUS_PLATFORM_BEGIN
 
+    void preinit( );
     void init( int argc, char **argv );
 
 __HYDRUS_PLATFORM_END
@@ -16,6 +17,8 @@ __HYDRUS_END
 
 int main( int argc, char ** argv )
 {
+    Hydrus::P::preinit( );
+    
     Hydrus::P::Logger::log("platform", "initializing", Hydrus::P::Logger::DEBUG);
     Hydrus::P::init(argc, argv);
     Hydrus::P::Logger::log("platform", "application started", Hydrus::P::Logger::DEBUG);

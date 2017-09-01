@@ -33,11 +33,13 @@ public:
     
     GPIO( unsigned int pin, Direction direction, Flags caps );
     
-    void configure( Direction direction, Flags flags );
+    bool configure( Direction direction, Flags flags );
     
     Level get();
     void set( Level l );
     
+private:
+    void *_p;
 };
 
 __HYDRUS_PLATFORM_END

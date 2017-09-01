@@ -1,5 +1,7 @@
+#include <stdio.h>
 #include "platform/gpio.h"
 #include "platform/serialport.h"
+#include "platform/logger.h"
 
 #include <sys/types.h>
 #include <sys/stat.h>       
@@ -10,7 +12,111 @@
 
 #include <string.h>
 
+
+/* GPIO tables resolve a "platform" gpio number into a system-specific gpio number */
+/* -1 means the pin is invalid  */
+#define GPIO_TBL GPIO_DESKTOP_TBL
+
+static const int8_t GPIO_DESKTOP_TBL[64] = {
+    -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, 
+    -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, 
+    -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, 
+    -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, 
+    -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, 
+    -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, 
+    -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, 
+    -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, 
+};
+
+static const int8_t GPIO_RBPI_TBL[64] = {
+    -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, 
+    -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, 
+    -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, 
+    -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, 
+    -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, 
+    -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, 
+    -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, 
+    -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, 
+};
+
+
 __HYDRUS_PLATFORM_BEGIN
+
+
+
+// GPIO
+
+struct GPIOPrivate
+{
+    int pin;
+    GPIO::Direction dir;
+    GPIO::Flags flags;
+    
+    GPIOPrivate( int syspin, GPIO::Direction direction, GPIO::Flags f)
+    {
+        this->pin = syspin;
+        this->dir = direction;
+        this->flags = f;
+    }
+    
+};
+
+GPIO::GPIO( unsigned int platformpin, Direction direction, Flags f )
+{
+    int8_t syspin = GPIO_TBL[platformpin];
+    
+    if( syspin < 0 )
+    {
+        _p = 0;
+        P::Logger::log("gpio", "platform gpio has no system equivalent");
+        return;
+    }
+    
+    _p = new GPIOPrivate( syspin, direction, f );
+    
+    int expfd = open("/sys/class/gpio/export", O_WRONLY);
+    if (-1 == expfd) 
+    {    
+        P::Logger::log("gpio", "failed to export gpio");
+        _p = 0;
+        return;
+    }
+    
+    char expbuf[4];
+    int expcount = snprintf(expbuf, 4, "%d", syspin);
+    if(expcount != write(expfd, expbuf, expcount))
+    {
+        P::Logger::log("gpio", "failed to export gpio?");        
+    }
+    close( expfd );
+    
+    configure( direction, f );    
+}
+
+bool GPIO::configure( Direction d, Flags f )
+{
+    if(!_p)
+        return false;
+    
+}
+
+
+GPIO::Level GPIO::get()
+{
+    if(!_p)
+        return LOW;
+    
+}
+
+void GPIO::set( Level l )
+{
+    if(!_p)
+        return;
+    
+}
+
+
+// Serial Port
 
 struct SerialPortPrivate {
     int fd;

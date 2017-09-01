@@ -18,9 +18,8 @@ public:
     bool tick() override
     {
         static int i = 0;
-        P::Logger::log("dummytask", "Hello World");        
-        
-        return (i++) < 5;
+        P::Logger::log("dummytask", "Hello World");                
+        return (++i) < 5;
     }
     
 };

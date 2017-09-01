@@ -1,6 +1,9 @@
+#include <errno.h>
+#include <stdio.h>
 #include "platform/thread.h"
 #include "platform/semaphore.h"
 #include "platform/mutex.h"
+#include "platform/logger.h"
 
 #include "pthread.h"
 #include "semaphore.h"
@@ -13,7 +16,13 @@ __HYDRUS_PLATFORM_BEGIN
 
 Semaphore::Semaphore(unsigned int val)
 {
-    sem_init((sem_t*)_p, 0, val);
+    _p = new sem_t;
+    sem_init((sem_t*)_p, 0, val);    
+}
+
+Semaphore::~Semaphore()
+{
+    sem_destroy((sem_t*)_p);
 }
 
 void Semaphore::p()
@@ -45,13 +54,17 @@ Thread::Thread( Thread::Type t )
     pthread_attr_t attrs;
     pthread_attr_init(&attrs);
 
-    pthread_attr_setdetachstate(&attrs, PTHREAD_CREATE_JOINABLE);
+//     pthread_attr_setdetachstate(&attrs, PTHREAD_CREATE_JOINABLE);
 
     _p = new pthread_t;
     int status = pthread_create((pthread_t*)_p, &attrs, &_linux_Thread_run, this);
 
-    if (status != 0)
+    if (status)
+    {
+        Logger::log("thread", "create failed");  
+        perror("Thread::Thread");
         return;
+    }
 
     if( t == LOWPRIO )
     {
@@ -82,7 +95,7 @@ void Thread::join()
 
 void Thread::entry()
 {
-    main();
+    this->main();
 }
 
 
@@ -90,12 +103,14 @@ void Thread::entry()
 
 Mutex::Mutex()
 {
+    _p = new pthread_mutex_t;
     pthread_mutex_init((pthread_mutex_t*) _p, 0);
 }
 
 Mutex::~Mutex()
 {
     pthread_mutex_destroy((pthread_mutex_t*)_p);
+    delete (pthread_mutex_t*)_p;
 }
 
 bool Mutex::tryLock()

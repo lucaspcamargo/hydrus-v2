@@ -1,6 +1,7 @@
 #include "platform/logger.h"
 
 #include <iostream>
+#include "platform/mutex.h"
 
 __HYDRUS_PLATFORM_BEGIN
 
@@ -11,6 +12,7 @@ namespace Linux {
     
 };*/
 
+Mutex *_linux_logger_lock = 0;
 
 const char* _log_level_to_str ( Logger::Level lvl )
 {
@@ -35,6 +37,7 @@ const char* _log_level_to_str ( Logger::Level lvl )
 
 void Logger::log( const char * where, const char * what, Logger::Level lvl )
 {
+    MutexLock l( *_linux_logger_lock );
     std::cerr << '[' << where << "] " << _log_level_to_str(lvl) << ": " << what << std::endl;
 }
 

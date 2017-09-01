@@ -20,6 +20,8 @@ include_directories( ${PROJECT_BINARY_DIR} ./include )
 
 set( SRCS 
     src/main.cpp    
+    src/navigation.cpp
+    src/periodicthread.cpp
     )
 
     

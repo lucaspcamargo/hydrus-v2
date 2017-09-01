@@ -1,8 +1,10 @@
+#include <unistd.h>
 #pragma once
 
 #include "hydrus-config.h"
 #include "test/dummytask.h"
 #include "periodicthread.h"
+#include "navigation.h"
 
 __HYDRUS_BEGIN
 
@@ -21,9 +23,16 @@ public:
         
         P::Logger::log("application", "started");   
         
-        ( new PeriodicThread(new DummyTask()) )->join();
+        PeriodicThread dt( new DummyTask() );
+        PeriodicThread nav( new Navigation() );
+        usleep( 100000u );
         
-        P::Logger::log("application", "joined dummy task");        
+        nav.join();
+        dt.join();
+        P::Logger::log("application", "joined all threads"); 
+        
+        
+        P::Logger::log("application", "finished");        
         
         return 0;
     }

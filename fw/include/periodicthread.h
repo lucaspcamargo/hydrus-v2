@@ -19,16 +19,7 @@ public:
         m_running = true;
     }
     
-    int main() override 
-    {        
-        while(m_running)
-        {
-            m_timer.wait();
-            m_running = m_task->tick();
-        }
-     
-        return 0;
-    }
+    int main() override;
     
     void stop() { m_running = false; }
     
