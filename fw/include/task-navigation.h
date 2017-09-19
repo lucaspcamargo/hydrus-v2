@@ -4,30 +4,31 @@
 #include "task.h"
 #include "platform/logger.h"
 
+#include "gps.h"
+
 __HYDRUS_BEGIN
 
-class Navigation : public Task
+class NavigationTask : public Task
 {
 public:
     
-    static const uint64_t NAV_PERIOD_us = 500000u;
+    typedef Traits< NavigationTask > Tr;
     
-    Navigation() : Task()
+    NavigationTask() : Task()
     {
-        
+        GPS::init();        
     }
         
     
     virtual bool tick() override 
-    {
-        P::Logger::log("nav", "arriving for duty");
+    {        
         
         return true; // keep running
     }
     
     virtual uint64_t period_us() override 
     {        
-        return NAV_PERIOD_us;
+        return Tr::THREAD_INTERVAL_us;
     }
     
     

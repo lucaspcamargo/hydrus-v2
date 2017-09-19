@@ -20,6 +20,7 @@ public:
     ssize_t available();
     
     bool ready();
+    bool can_read_line();
     
     static int get_index( const char *id );
     

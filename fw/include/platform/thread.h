@@ -29,4 +29,12 @@ class Thread {
 
 };
 
+template <typename T> class FunctionThread : public Thread {
+public:
+    
+    virtual int main() override {
+        return T::threadEntry();
+    };
+};
+
 __HYDRUS_PLATFORM_END

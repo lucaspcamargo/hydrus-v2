@@ -113,7 +113,7 @@ Mutex::~Mutex()
     delete (pthread_mutex_t*)_p;
 }
 
-bool Mutex::tryLock()
+bool Mutex::try_lock()
 {
     return pthread_mutex_trylock((pthread_mutex_t*)_p) == 0;
 }

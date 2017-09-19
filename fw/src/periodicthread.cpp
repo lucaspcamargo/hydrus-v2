@@ -3,9 +3,7 @@
 __HYDRUS_BEGIN
 
     int PeriodicThread::main()
-    {        
-        P::Logger::log("periodicthread", "main", P::Logger::DEBUG);  
-        
+    {                
         while(m_running)
         {
             m_timer.wait();

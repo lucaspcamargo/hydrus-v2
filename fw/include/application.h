@@ -4,7 +4,10 @@
 #include "hydrus-config.h"
 #include "test/dummytask.h"
 #include "periodicthread.h"
-#include "navigation.h"
+
+#include "task-navigation.h"
+#include "task-sensing.h"
+#include "task-system.h"
 
 __HYDRUS_BEGIN
 
@@ -23,15 +26,15 @@ public:
         
         P::Logger::log("application", "started");   
         
-        PeriodicThread dt( new DummyTask() );
-        PeriodicThread nav( new Navigation() );
-        usleep( 100000u );
-        
+        PeriodicThread sys( new SystemTask() );
+        PeriodicThread sen( new SensingTask() );
+        PeriodicThread nav( new NavigationTask() );
+                
         nav.join();
-        dt.join();
-        P::Logger::log("application", "joined all threads"); 
+        sen.join();
+        sys.join();
         
-        
+        P::Logger::log("application", "joined all threads");      
         P::Logger::log("application", "finished");        
         
         return 0;

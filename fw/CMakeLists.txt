@@ -20,7 +20,9 @@ include_directories( ${PROJECT_BINARY_DIR} ./include )
 
 set( SRCS 
     src/main.cpp    
-    src/navigation.cpp
+    
+    src/blackboard.cpp
+    src/gps.cpp
     src/periodicthread.cpp
     )
 

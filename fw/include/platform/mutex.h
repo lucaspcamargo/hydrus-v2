@@ -9,7 +9,7 @@ class Mutex
 public:
     Mutex(); 
     ~Mutex();
-    bool tryLock();
+    bool try_lock();
     void lock();
     void unlock();
     
@@ -21,6 +21,7 @@ class MutexLock
 {
 public:
     MutexLock(Mutex & m):_m(m){ _m.lock(); }
+    MutexLock(Mutex *m):_m(*m){ _m.lock(); }
     ~MutexLock(){ _m.unlock(); }
     
 private:

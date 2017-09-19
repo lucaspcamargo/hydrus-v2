@@ -3,10 +3,8 @@
 #include "platform/logger.h"
 
 __HYDRUS_PLATFORM_BEGIN
-
     void preinit( );
     void init( int argc, char **argv );
-
 __HYDRUS_PLATFORM_END
 
 

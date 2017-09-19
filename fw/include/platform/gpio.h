@@ -20,15 +20,17 @@ public:
     
     enum Flags
     {
-      PULLUP = 1,
+      PULLUP = 1,     
       PULLDOWN = 2,
       OPEN_COLLECTOR = 4,
+      INIT_OUTPUT_AS_HIGH = 8,
     };
     
     enum Level
     {
       LOW,
-      HIGH
+      HIGH,
+      INVALID
     };
     
     GPIO( unsigned int pin, Direction direction, Flags caps );

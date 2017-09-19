@@ -1,4 +1,5 @@
-#include <stdio.h>
+#include <hydrus-config.h>
+
 #include "platform/gpio.h"
 #include "platform/serialport.h"
 #include "platform/logger.h"
@@ -10,7 +11,9 @@
 #include <fcntl.h>
 #include <sys/termios.h>
 
+#include <stdio.h>
 #include <string.h>
+#include <errno.h>
 
 
 /* GPIO tables resolve a "platform" gpio number into a system-specific gpio number */
@@ -54,11 +57,10 @@ struct GPIOPrivate
     
     GPIOPrivate( int syspin, GPIO::Direction direction, GPIO::Flags f)
     {
-        this->pin = syspin;
-        this->dir = direction;
-        this->flags = f;
+        pin = syspin;
+        dir = direction;
+        flags = f;
     }
-    
 };
 
 GPIO::GPIO( unsigned int platformpin, Direction direction, Flags f )
@@ -98,6 +100,37 @@ bool GPIO::configure( Direction d, Flags f )
     if(!_p)
         return false;
     
+    if((f & PULLDOWN)||(f & PULLUP)||(f & OPEN_COLLECTOR))
+        P::Logger::log("gpio", "requested features unsupported on linux platform");
+    
+    GPIOPrivate *p = (GPIOPrivate *)_p;
+    char dirfile[256];
+    
+    snprintf(dirfile, sizeof(dirfile), "/sys/class/gpio/gpio%d/direction", p->pin);
+    int dirfd = open(dirfile, O_WRONLY);
+    
+    if(!dirfd)
+    {
+        P::Logger::log("gpio", "failed to set direction");
+        return false;
+    }
+    
+    const char *dirstr;
+    if( d == OUTPUT )
+    {
+        if(f & INIT_OUTPUT_AS_HIGH)
+            dirstr = "high";
+        else
+            dirstr = "low";
+    }
+    else
+        dirstr = "in";
+    
+    write( dirfd, dirstr, strlen(dirstr) );
+    close( dirfd );
+        
+    return true;
+    
 }
 
 
@@ -106,6 +139,32 @@ GPIO::Level GPIO::get()
     if(!_p)
         return LOW;
     
+    GPIOPrivate *p = ((GPIOPrivate*)_p);
+    
+    char dirfile[256];
+    snprintf(dirfile, sizeof(dirfile), "/sys/class/gpio/gpio%d/value", p->pin);
+    int valfd = open(dirfile, O_RDONLY);
+    
+    if(!valfd){
+        P::Logger::log("gpio", "failed to open value fd");
+        return INVALID;
+    }
+    
+    char c;
+    if (read(valfd, &c, 1) != 1)
+    {
+        P::Logger::log("gpio", "could not read value");        
+        return INVALID;
+    }
+    
+    close(valfd);
+    
+    GPIO::Level ret = INVALID;
+    
+    if(c == '1') ret = HIGH;
+    if(c == '0') ret = LOW;    
+    
+    return ret;
 }
 
 void GPIO::set( Level l )
@@ -113,6 +172,26 @@ void GPIO::set( Level l )
     if(!_p)
         return;
     
+    GPIOPrivate *p = ((GPIOPrivate*)_p);
+    
+    char dirfile[256];
+    snprintf(dirfile, sizeof(dirfile), "/sys/class/gpio/gpio%d/value", p->pin);
+    int valfd = open(dirfile, O_WRONLY);
+    
+    if(!valfd){
+        P::Logger::log("gpio", "failed to open value fd");
+        return;
+    }
+    
+    char c = (l == HIGH? '1':'0');
+    
+    if (write(valfd, &c, 1) != 1)
+    {
+        P::Logger::log("gpio", "could not set value");     
+        return;
+    }
+    
+    close(valfd);
 }
 
 
@@ -187,7 +266,14 @@ struct SerialPortPrivate {
         if(!path)
             return;
         
+        errno = 0;
+        
         fd = open(path, O_RDWR | O_NOCTTY | O_NDELAY | O_NONBLOCK);
+                
+        if(!fd || errno)
+        {
+            Logger::log("linux|serial", "could not open");
+        }
         
         struct termios opt;
         tcgetattr(fd, &opt);
@@ -243,7 +329,7 @@ ssize_t SerialPort::available()
     
     int ret = -1;
     ioctl(_p->fd, FIONREAD, &ret);
-    return ret;
+    return ret>=0? ret : 0;
 }
 
 // this is static
