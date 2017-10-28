@@ -85,7 +85,8 @@ bool GPS::tick()
         if(byte == '\n')
         {
             _p.linebuf[_p.inbuf] =  '\0';
-            lineReceived();
+            if(_p.inbuf)
+                lineReceived();
             _p.inbuf = 0;
         }
         else if(_p.inbuf < (sizeof(_p.linebuf)-1))
