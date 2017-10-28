@@ -208,19 +208,19 @@ struct SerialPortPrivate {
     {
         if( index == 0 )
         {
-            return "/dev/ttyS0";
+            return "/dev/ttyACM0";
         }
         else if( index == 1 )
         {
-            return "/dev/ttyS1";
+            return "/dev/ttyACM1";
         }
         else if( index == 2 )
         {
-            return "/dev/ttyS2";
+            return "/dev/ttyACM2";
         }
         else if( index == 3 )
         {
-            return "/dev/ttyS3";
+            return "/dev/ttyACM3";
         }
         return 0;
     }
