@@ -66,9 +66,10 @@ bool GPS::has_message()
 }
 
 
-void lineReceived()
+void _gps_lineReceived()
 {
-    P::Logger::log("gps", _p.linebuf, P::Logger::DEBUG);
+    if(GPS::Tr::DEBUG_PRINT_INPUT) 
+        P::Logger::log("gps", _p.linebuf, P::Logger::DEBUG);
 }
 
 bool GPS::tick()
@@ -86,7 +87,7 @@ bool GPS::tick()
         {
             _p.linebuf[_p.inbuf] =  '\0';
             if(_p.inbuf)
-                lineReceived();
+                _gps_lineReceived();
             _p.inbuf = 0;
         }
         else if(_p.inbuf < (sizeof(_p.linebuf)-1))

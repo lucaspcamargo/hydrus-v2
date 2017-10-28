@@ -44,6 +44,8 @@ template<> struct Traits< GPS >
     typedef float         ANGLE_DATATYPE;
 
     static const uint64_t THREAD_INTERVAL_us = 1000000ul / TASK_FREQ;
+    
+    static const bool DEBUG_PRINT_INPUT = true;
 };
 
 template<> struct Traits< Magnetometer >
