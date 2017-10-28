@@ -34,10 +34,10 @@ public:
         
         m_heading = atan2f( m_x, m_y );
         
-        fprintf(stderr, "mag %f %f %f %f", (double)m_x, (double)m_y, (double)m_z, (double)m_heading );        
+        fprintf(stderr, "mag %f %f %f %f\n", (double)m_x, (double)m_y, (double)m_z, (double)m_heading );        
     }
         
-    const float x() const { return m_x; }
+    const float & x() const { return m_x; }
     const float & y() const { return m_y; }
     const float & z() const { return m_z; }
     const float & heading() const { return m_heading; }
