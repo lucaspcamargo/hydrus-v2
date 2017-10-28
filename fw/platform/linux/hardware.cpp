@@ -284,6 +284,7 @@ struct SerialPortPrivate {
         cfsetospeed(&opt, spdCfg);
         
         opt.c_cflag |= (CLOCAL | CREAD);
+        opt.c_lflag &= ~ECHO;
         
         tcsetattr(fd, TCSAFLUSH, &opt);
     }
