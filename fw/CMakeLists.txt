@@ -22,7 +22,7 @@ set( SRCS
     src/main.cpp    
     
     src/blackboard.cpp
-    src/gps.cpp
+    src/dev-gps.cpp
     src/periodicthread.cpp
     )
 
