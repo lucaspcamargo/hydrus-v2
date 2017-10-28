@@ -19,7 +19,11 @@ __HYDRUS_PLATFORM_BEGIN
     {   
         // here we initialize the specifics of the platform
         Logger::log("init", "locking memory");
-        if(mlockall( MCL_CURRENT | MCL_ONFAULT ))
+        if(mlockall( MCL_CURRENT
+#ifndef __arm__
+ | MCL_ONFAULT
+#endif
+        ))
         {
             Logger::log("init", "error locking memory", Logger::ERROR);
             perror("locking memory");
