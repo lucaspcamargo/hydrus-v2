@@ -90,8 +90,8 @@ bool GPS::tick()
         }
         else if(_p.inbuf < (sizeof(_p.linebuf)-1))
         {
-            _p.inbuf ++;
             _p.linebuf[_p.inbuf] = byte;
+            _p.inbuf ++;
         }
         else
         {
