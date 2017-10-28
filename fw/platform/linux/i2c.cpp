@@ -14,7 +14,7 @@ struct LinuxI2CPrivate
     int fd;
 };
 
-#define USE_PRIVATE LinuxI2CPrivate *p const = (LinuxI2CPrivate *)(this->_p);
+#define USE_PRIVATE LinuxI2CPrivate * const p = (LinuxI2CPrivate *)(this->_p);
 #define REQUIRE_OPEN if(!p->fd) return;
 
 
