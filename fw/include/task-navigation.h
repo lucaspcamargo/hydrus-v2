@@ -4,7 +4,7 @@
 #include "task.h"
 #include "platform/logger.h"
 
-#include "gps.h"
+#include "dev-gps.h"
 
 __HYDRUS_BEGIN
 

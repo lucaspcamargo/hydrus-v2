@@ -28,12 +28,20 @@ template<> struct Traits< NavigationTask >
     static const uint64_t THREAD_INTERVAL_us = 1000000ul / TASK_FREQ;
 };
 
+template<> struct Traits< ADC >
+{
+    static const uint32_t BITS = 16;
+    static const uint32_t MAX_VALUE = (1 << BITS) - 1;
+    
+    static constexpr float    VOLTS_PER_LSB = 0.00005035477225909819f;
+};
+
 template<> struct Traits< GPS >
 {
     static const unsigned MAX_LINE_LENGTH = 160;
     static const uint64_t TASK_FREQ = 20;
 
-    typedef double ANGLE_DATATYPE;
+    typedef double        ANGLE_DATATYPE;
 
     static const uint64_t THREAD_INTERVAL_us = 1000000ul / TASK_FREQ;
 };

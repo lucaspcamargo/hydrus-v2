@@ -5,7 +5,7 @@ set( HYDRUS_PLATFORM "linux" CACHE STRING "The platform to build the drone firmw
 
 ## PLATFORM SETTINGS
 
-include( platform/${HYDRUS_PLATFORM}/${HYDRUS_PLATFORM}.cmake.inc )
+include( platform/${HYDRUS_PLATFORM}/${HYDRUS_PLATFORM}.cmake )
 
 ## CONFIG HEADER
 

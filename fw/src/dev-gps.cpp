@@ -1,4 +1,4 @@
-#include <gps.h>
+#include <dev-gps.h>
 #include <platform/mutex.h>
 #include <platform/thread.h>
 #include <platform/logger.h>
