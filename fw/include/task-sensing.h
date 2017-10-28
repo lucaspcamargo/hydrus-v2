@@ -6,6 +6,7 @@
 #include "task.h"
 #include "platform/logger.h"
 
+#include "dev-magnetometer.h"
 
 __HYDRUS_BEGIN
 
@@ -15,13 +16,18 @@ public:
     
     typedef Traits< SensingTask > Tr;
     
-    SensingTask() : Task()
+    SensingTask() : 
+    Task(),
+    m_mag(P::I2CBus::getBusInstance(0))
     {
         
     }        
     
     virtual bool tick() override 
     {
+        
+        m_mag.sample();
+        
         return true; // keep running
     }
     
@@ -32,7 +38,7 @@ public:
     
     
 private:
-    
+    Magnetometer m_mag;
 };
 
 __HYDRUS_END

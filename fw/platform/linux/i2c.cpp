@@ -124,4 +124,16 @@ size_t I2CBus::write( void * src, size_t len )
     return ::write(p->fd, src, len);
 }
 
+I2CBus & I2CBus::getBusInstance( int index )
+{
+    (void) index;
+    
+    static I2CBus * bus = 0;
+    
+    if (!bus)
+        bus = new I2CBus(index, I2CBus::DefaultSpeed);
+    
+    return *bus;
+}
+
 __HYDRUS_PLATFORM_END

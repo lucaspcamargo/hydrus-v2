@@ -28,6 +28,13 @@ template<> struct Traits< NavigationTask >
     static const uint64_t THREAD_INTERVAL_us = 1000000ul / TASK_FREQ;
 };
 
+
+template<> struct Traits< I2CBus >
+{
+    static const uint64_t TASK_FREQ = 10;
+    static const uint64_t THREAD_INTERVAL_us = 1000000ul / TASK_FREQ;
+};
+
 template<> struct Traits< ADC >
 {
     static const uint32_t BITS = 16;

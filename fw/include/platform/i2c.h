@@ -11,10 +11,10 @@ __HYDRUS_PLATFORM_BEGIN
 class I2CBus {
 public:
     enum Speed {
-        DefaultSpeed,
         LowSpeed,
-        MediumSpeed = DefaultSpeed,
-        HighSpeed
+        MediumSpeed,
+        HighSpeed,
+        DefaultSpeed = MediumSpeed,
     };
     
     typedef uint8_t Address;
@@ -34,6 +34,8 @@ public:
     size_t read( void * dst, size_t len );
     size_t write( void * src, size_t len );
         
+    static I2CBus & getBusInstance( int index );
+    
 private:
     void *_p;
 };
