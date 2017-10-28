@@ -11,5 +11,6 @@ class NavigationTask;
 // devices
 class ADC;
 class GPS;
+class Magnetometer;
 
 __HYDRUS_END

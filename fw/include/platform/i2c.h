@@ -6,6 +6,7 @@
 
 #include "hydrus-config.h"
 
+__HYDRUS_PLATFORM_BEGIN
 
 class I2CBus {
 public:
@@ -34,5 +35,7 @@ public:
     size_t write( void * src, size_t len );
         
 private:
-    
+    void *_p;
 };
+
+__HYDRUS_PLATFORM_END
