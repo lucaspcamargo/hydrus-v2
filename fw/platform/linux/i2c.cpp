@@ -123,8 +123,8 @@ uint16_t I2CBus::read_short ( Register reg, bool lendian )
     opdata.nmsgs = 2;
     
     char readbuf[2];
-    readbuf[0] = 0xff;
-    readbuf[1] = 0xff;
+    readbuf[0] = 0xf8;
+    readbuf[1] = 0xf7;
     
     msgs[0].addr = p->lastAddr;
     msgs[0].flags = 0;
