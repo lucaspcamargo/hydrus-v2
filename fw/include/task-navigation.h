@@ -5,6 +5,10 @@
 #include "platform/logger.h"
 
 #include "dev-gps.h"
+#include "blackboard.h"
+
+#include "navigation/navcontroller.h"
+#include "navigation/navwaypoints.h"
 
 __HYDRUS_BEGIN
 
@@ -23,10 +27,22 @@ public:
     
     virtual bool tick() override 
     {        
+        bool gpsDirty = false;
         if(GPS::has_message())
         {
-            GPS::Message m = GPS::get_message_copy();
+            p_gpsm = GPS::get_message_copy();
+            gpsDirty = true;
+        }
+        
+        if(gpsDirty)
+        {
+            BB->trans.begin();
             
+            BB->nav.gpsHasFix = p_gpsm.fix;
+            BB->nav.gpsLat = p_gpsm.lat;
+            BB->nav.gpsLon = p_gpsm.lon;
+            
+            BB->trans.end();
         }
         
         return true; // keep running
@@ -40,6 +56,9 @@ public:
     
 private:
     GPS::Message p_gpsm;
+    
+    NavController m_controller;
+    Waypoints m_waypoints;
 };
 
 __HYDRUS_END

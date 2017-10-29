@@ -67,5 +67,28 @@ template<> struct Traits< Magnetometer >
     static constexpr float HEADING_OFFSET = 0.0f; // TODO calibrate
 };
 
+template<> struct Traits< NavController >
+{
+    typedef float nav_f_t;
+    
+    static constexpr nav_f_t earthRadius_m = 6371000;
+    
+    static constexpr nav_f_t rangeToleranceRadius_m = 7;
+    static constexpr nav_f_t rangeToleranceExitRadius_m = 12;
+    static constexpr nav_f_t headingTolerance_rad = 10 * 0.017453292519943295f; // 10 degrees in radians
+    
+    static constexpr nav_f_t SPEED_FACTOR = 0.3;
+    
+    static constexpr nav_f_t speedFull = (0.5 * SPEED_FACTOR);
+    static constexpr nav_f_t speedMedium = (0.25 * SPEED_FACTOR);
+    static constexpr nav_f_t speedLow = (0.1 * SPEED_FACTOR);
+    
+    static constexpr nav_f_t speedMediumDistance = 20; //meters
+    static constexpr nav_f_t speedLowDistance = 5; //meters
+    
+    static constexpr nav_f_t timeForAlign = 3; // 3 seconds
+    static constexpr nav_f_t timeForArrival = 5; // 5 seconds
+};
+
 __HYDRUS_END
 

@@ -16,4 +16,7 @@ class ADC;
 class GPS;
 class Magnetometer;
 
+// misc
+class NavController;
+
 __HYDRUS_END

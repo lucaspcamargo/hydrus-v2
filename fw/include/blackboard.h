@@ -57,7 +57,7 @@ struct Blackboard
 
         NavigationState state = NS_NOT_NAVIGATING;
 
-        State gpsState = SS_INITIALIZING;
+        //State gpsState = SS_INITIALIZING;
         bool gpsHasFix = false;
         float gpsLat = 0;
         float gpsLon = 0;
@@ -134,5 +134,22 @@ extern Blackboard* BB;
 
 /** @brief read-only access point to blackboard (backbuffer) */
 extern const Blackboard* BBro;
+
+
+class BlackboardTransaction
+{
+public:
+    BlackboardTransaction( bool ro = false ) : m_ro(ro)
+    {
+        BB->trans.begin(m_ro);
+    }
+    
+    ~BlackboardTransaction()
+    {
+        BB->trans.end(m_ro);
+    }
+    
+    bool m_ro;    
+};
 
 __HYDRUS_END;
