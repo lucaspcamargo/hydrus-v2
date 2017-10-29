@@ -47,6 +47,7 @@ void GPS::init()
 const GPS::Message GPS::get_message_copy()
 {
     P::MutexLock(_p.lock);
+    _p.dirty = false;
     return _p.m;
 }
 
@@ -67,6 +68,15 @@ bool GPS::has_message()
     return _p.dirty;
 }
 
+void GPS::received_message(Message &msg)
+{
+    _p.lock->lock();
+    
+    _p.m = msg;
+    _p.dirty = true;
+    
+    _p.lock->unlock();
+}
 
 void _gps_lineReceived()
 {
@@ -100,6 +110,8 @@ void _gps_lineReceived()
                 msg.lon = -msg.lon;
         }
         
+        
+        GPS::received_message(msg);
     }
     
     if(data)

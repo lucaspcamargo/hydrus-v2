@@ -27,6 +27,8 @@ public:
   static const Message & lock_message();
   static void unlock_message();
   
+  static void received_message(Message &msg);
+  
 private:
   static bool tick();
   
