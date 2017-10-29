@@ -18,7 +18,8 @@ public:
     
     Magnetometer(P::I2CBus &b): bus(b)
     {
-        // set continuous reagin mode
+        bus.select_slave(Tr::ADDRESS);
+        // set continuous reading mode
         bus.write_byte(0x02, 0x00);
     }
     
