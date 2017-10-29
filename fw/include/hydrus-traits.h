@@ -37,10 +37,12 @@ template<> struct Traits< I2CBus >
 
 template<> struct Traits< ADC >
 {
+    static const uint8_t I2C_ADDRESS = 0x48; // 72
+    
     static const uint32_t BITS = 16;
     static const uint32_t MAX_VALUE = (1 << BITS) - 1;
     
-    static constexpr float VOLTS_PER_LSB = 0.00005035477225909819f;
+    static constexpr float VOLTS_PER_LSB = 0.000125f;  // 125uV
 };
 
 template<> struct Traits< GPS >
@@ -57,7 +59,7 @@ template<> struct Traits< GPS >
 
 template<> struct Traits< Magnetometer >
 {
-    static const uint8_t ADDRESS = 0x1e;
+    static const uint8_t I2C_ADDRESS = 0x1e;
     
     static constexpr float HEADING_OFFSET = 0.0f; // TODO calibrate
 };

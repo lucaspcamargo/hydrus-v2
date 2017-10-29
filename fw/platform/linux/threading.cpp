@@ -9,6 +9,8 @@
 #include "semaphore.h"
 #include "sched.h"
 
+#include <unistd.h>
+
 __HYDRUS_PLATFORM_BEGIN
 
 
@@ -98,6 +100,10 @@ void Thread::entry()
     this->main();
 }
 
+void Thread::usleep(uint64_t us)
+{
+    ::usleep(us);
+}
 
 /// MUTEX
 

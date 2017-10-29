@@ -18,7 +18,7 @@ public:
     
     Magnetometer(P::I2CBus &b): bus(b)
     {
-        bus.select_slave(Tr::ADDRESS);
+        bus.select_slave(Tr::I2C_ADDRESS);
         // set continuous reading mode
         bus.write_byte(0x02, 0x00);
     }
@@ -30,7 +30,7 @@ public:
     
     void sample() 
     {
-        bus.select_slave(Tr::ADDRESS);
+        bus.select_slave(Tr::I2C_ADDRESS);
         
         m_x = (read_axis(0));
         m_y = (read_axis(1));

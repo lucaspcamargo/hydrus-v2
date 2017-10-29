@@ -24,6 +24,8 @@ class Thread {
     
     void entry();
     
+    static void usleep(uint64_t us);
+    
   private:
     void *_p;
 

@@ -7,6 +7,7 @@
 #include "platform/logger.h"
 
 #include "dev-magnetometer.h"
+#include "dev-adc.h"
 
 __HYDRUS_BEGIN
 
@@ -18,6 +19,7 @@ public:
     
     SensingTask() : 
     Task(),
+    m_adc(P::I2CBus::getBusInstance(0)),
     m_mag(P::I2CBus::getBusInstance(0))
     {
         
@@ -25,9 +27,12 @@ public:
     
     virtual bool tick() override 
     {
-        
         m_mag.sample();
         
+        float adcValues[4];
+        for(int i = 0; i < 4; i++)
+            adcValues[i] = m_adc.get_volts(i);
+            
         return true; // keep running
     }
     
@@ -38,6 +43,7 @@ public:
     
     
 private:
+    ADC m_adc;
     Magnetometer m_mag;
 };
 
