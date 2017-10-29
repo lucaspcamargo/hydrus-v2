@@ -26,6 +26,8 @@ public:
         
         P::Logger::log("application", "started");   
         
+        Blackboard::init();
+        
         PeriodicThread sys( new SystemTask() );
         PeriodicThread sen( new SensingTask() );
         PeriodicThread nav( new NavigationTask() );
