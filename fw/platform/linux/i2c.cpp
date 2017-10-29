@@ -116,6 +116,8 @@ uint16_t I2CBus::read_short ( Register reg, bool lendian )
     USE_PRIVATE    
     if(!p->fd) return 0xffff;
     
+    return i2c_smbus_read_word_data(p->fd, reg);
+    
     i2c_rdwr_ioctl_data opdata;    
     i2c_msg msgs[2];
     
