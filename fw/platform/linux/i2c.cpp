@@ -138,7 +138,7 @@ uint16_t I2CBus::read_short ( Register reg, bool lendian )
     
     int ret = ioctl( p->fd, I2C_RDWR, &opdata );    
     if(ret)
-        fprintf(stderr, "READ_SHORT IOCTL ERROR %d" ret);
+        fprintf(stderr, "READ_SHORT IOCTL ERROR %d\n", ret);
     
     return lendian? readbuf[0] | (readbuf[1] << 8) : readbuf[1] | (readbuf[0] << 8);
 }
