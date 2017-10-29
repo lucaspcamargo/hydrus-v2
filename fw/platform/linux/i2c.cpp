@@ -9,16 +9,18 @@
 #include <sys/ioctl.h>
 #include <errno.h>
 
-struct LinuxI2CPrivate
-{
-    int fd;
-};
 
 #define USE_PRIVATE LinuxI2CPrivate * const p = (LinuxI2CPrivate *)(this->_p);
 #define REQUIRE_OPEN if(!p->fd) return;
 
 
 __HYDRUS_PLATFORM_BEGIN
+
+struct LinuxI2CPrivate
+{
+    int fd;
+    I2CBus::Address lastAddr;
+};
 
 I2CBus::I2CBus( int index, Speed spd )
 {
@@ -58,14 +60,37 @@ void I2CBus::select_slave( Address addr )
     if (ioctl(p->fd, I2C_SLAVE, addr) < 0) {
         Logger::log("linux|i2c", strerror(errno), Logger::ERROR);
     }
+    
+    p->lastAddr = addr;
 }
 
 uint8_t I2CBus::read_byte ( Register reg )
 {
     USE_PRIVATE    
-    if(!p->fd) return 0xff;
+    if(!p->fd) return 0xffff;
     
-    return i2c_smbus_read_byte_data ( p->fd, reg );
+    i2c_rdwr_ioctl_data opdata;    
+    i2c_msg msgs[2];
+    
+    opdata.msgs = msgs;
+    opdata.nmsgs = 2;
+    
+    char readbuf[1];
+    readbuf[0] = 0xff;
+    
+    msgs[0].addr = p->lastAddr;
+    msgs[0].flags = 0;
+    msgs[0].buf = (char*)&reg;
+    msgs[0].len = 1;
+    
+    msgs[1].addr = p->lastAddr;
+    msgs[1].flags = I2C_M_RD;
+    msgs[1].buf = readbuf;
+    msgs[1].len = 1;
+    
+    ioctl( p->fd, I2C_RDWR, opdata );
+    
+    return static_cast<uint8_t>(readbuf[0]);
 }
 
 bool I2CBus::write_byte ( Register reg, uint8_t value )
@@ -86,12 +111,34 @@ bool I2CBus::write_byte ( Register reg, uint8_t value )
     return true;
 }
 
-uint16_t I2CBus::read_short ( Register reg )
+uint16_t I2CBus::read_short ( Register reg, bool lendian )
 {
     USE_PRIVATE    
     if(!p->fd) return 0xffff;
     
-    return i2c_smbus_read_word_data( p->fd, reg );
+    i2c_rdwr_ioctl_data opdata;    
+    i2c_msg msgs[2];
+    
+    opdata.msgs = msgs;
+    opdata.nmsgs = 2;
+    
+    char readbuf[2];
+    readbuf[0] = 0xff;
+    readbuf[1] = 0xff;
+    
+    msgs[0].addr = p->lastAddr;
+    msgs[0].flags = 0;
+    msgs[0].buf = (char*)&reg;
+    msgs[0].len = 1;
+    
+    msgs[1].addr = p->lastAddr;
+    msgs[1].flags = I2C_M_RD;
+    msgs[1].buf = readbuf;
+    msgs[1].len = 2;
+    
+    ioctl( p->fd, I2C_RDWR, opdata );
+    
+    return lendian? readbuf[0] | (readbuf[1] << 8) : readbuf[1] | (readbuf[0] << 8);
 }
 
 bool I2CBus::write_short ( Register reg, uint16_t value )
