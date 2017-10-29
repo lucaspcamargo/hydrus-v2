@@ -1,0 +1,3 @@
+[submodule "fw/thirdparty/libnmea"]
+	path = fw/thirdparty/libnmea
+	url = git@github.com:jacketizer/libnmea.git

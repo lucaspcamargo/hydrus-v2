@@ -7,6 +7,11 @@ set( HYDRUS_PLATFORM "linux" CACHE STRING "The platform to build the drone firmw
 
 include( platform/${HYDRUS_PLATFORM}/${HYDRUS_PLATFORM}.cmake )
 
+## 3rdparty
+
+
+
+
 ## CONFIG HEADER
 
 configure_file (
@@ -35,5 +40,5 @@ set( SRCS
 
 add_executable( hydrusv2_fw ${SRCS} ${HYDRUS_P_SRCS} )
 if( HYDRUS_P_LIBS )
-    target_link_libraries( hydrusv2_fw ${HYDRUS_P_LIBS} )
+    target_link_libraries( hydrusv2_fw ${HYDRUS_P_LIBS} -l:libnmea.a -ldl )
 endif( HYDRUS_P_LIBS )

@@ -5,6 +5,8 @@
 #include <platform/serialport.h>
 
 #include "periodicthread.h"
+#include "nmea.h"
+#include "nmea/gprmc.h"
 
 __HYDRUS_BEGIN
 
@@ -70,6 +72,39 @@ void _gps_lineReceived()
 {
     if(GPS::Tr::DEBUG_PRINT_INPUT) 
         P::Logger::log("gps", _p.linebuf, P::Logger::DEBUG);
+    
+    nmea_s *data;
+    
+    data = nmea_parse(_p.linebuf, strlen(_p.linebuf), 0);
+    
+    if (data && NMEA_GPRMC == data->type) {
+        GPS::Message msg;
+        
+        nmea_gprmc_s *gprmc = (nmea_gprmc_s *) data;
+        msg.unixtime = mktime(&gprmc->time);
+        
+        if(gprmc->latitude.cardinal == NMEA_CARDINAL_DIR_UNKNOWN || gprmc->longitude.cardinal == NMEA_CARDINAL_DIR_UNKNOWN)
+        {
+            msg.fix = false;
+        }
+        else
+        {
+            msg.fix = true;
+            
+            msg.lat = gprmc->latitude.degrees + gprmc->latitude.minutes/60.0;
+            if(gprmc->latitude.cardinal == NMEA_CARDINAL_DIR_SOUTH)
+                msg.lat = -msg.lat;
+            
+            msg.lon = gprmc->longitude.degrees + gprmc->longitude.minutes/60.0;
+            if(gprmc->longitude.cardinal == NMEA_CARDINAL_DIR_WEST)
+                msg.lon = -msg.lon;
+        }
+        
+    }
+    
+    if(data)
+        nmea_free(data);
+    
 }
 
 bool GPS::tick()
