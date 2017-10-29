@@ -32,9 +32,9 @@ public:
     {
         bus.select_slave(Tr::ADDRESS);
         
-        m_x = read_axis(0);
-        m_y = read_axis(1);
-        m_z = read_axis(2);
+        m_x = (read_axis(0));
+        m_y = (read_axis(1));
+        m_z = (read_axis(2));
         
         m_heading = atan2f( m_x, m_y );
         m_heading -= Tr::HEADING_OFFSET;
@@ -49,7 +49,7 @@ public:
     
 private:
     
-    inline uint16_t read_axis( int axis_index )
+    inline int16_t read_axis( int axis_index )
     {
         P::I2CBus::Register reg;
         
@@ -59,7 +59,10 @@ private:
             reg = 0x05;
         else reg = 0x03; // x, err
         
-        return bus.read_short(reg);
+        uint16_t r = bus.read_short(reg);
+        //if(r & (1 << 15))
+        //    r -= 1;
+        return (int16_t) r;
     }
     
     P::I2CBus &bus;
