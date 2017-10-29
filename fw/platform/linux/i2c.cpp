@@ -67,7 +67,7 @@ void I2CBus::select_slave( Address addr )
 uint8_t I2CBus::read_byte ( Register reg )
 {
     USE_PRIVATE    
-    if(!p->fd) return 0xffff;
+    if(!p->fd) return 0xff;
     
     i2c_rdwr_ioctl_data opdata;    
     i2c_msg msgs[2];
