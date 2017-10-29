@@ -40,8 +40,6 @@ public:
         
         int32_t ret = readRegister(0);
         
-        fprintf(stderr, "ADC CH%d VALUE %d\n", channel, ret);
-        
         return ret;
     }
     

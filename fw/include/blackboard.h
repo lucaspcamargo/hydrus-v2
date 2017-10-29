@@ -108,7 +108,8 @@ struct Blackboard
     //operational
 
     class Transactional {
-
+    public:
+        
         /**
         * @brief initiate a blackboard transaction
         */
@@ -129,9 +130,9 @@ struct Blackboard
 };
 
 /** @brief read-write access point to the blackboard (valid only on locking) */
-Blackboard* BB;
+extern Blackboard* BB;
 
 /** @brief read-only access point to blackboard (backbuffer) */
-const Blackboard* BBro;
+extern const Blackboard* BBro;
 
 __HYDRUS_END;

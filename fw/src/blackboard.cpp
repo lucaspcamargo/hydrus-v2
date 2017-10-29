@@ -4,6 +4,9 @@
 
 __HYDRUS_BEGIN
 
+Blackboard* BB;
+const Blackboard* BBro;
+
 Blackboard bb[2];
 volatile int _bbRWindex;
 volatile int _bbReaderCount;

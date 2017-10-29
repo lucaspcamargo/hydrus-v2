@@ -20,6 +20,9 @@ template<> struct Traits< SensingTask >
 {
     static const uint64_t TASK_FREQ = 30;
     static const uint64_t THREAD_INTERVAL_us = 1000000ul / TASK_FREQ;
+    
+    static constexpr float MAX_BATT_V = 16.0f;
+    static constexpr float MIN_BATT_V = 12.5f;
 };
 
 template<> struct Traits< NavigationTask >

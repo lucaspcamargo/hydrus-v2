@@ -2,12 +2,14 @@
 
 #include "hydrus-config.h"
 #include "hydrus-traits.h"
+#include "hydrus-math.h"
 
 #include "task.h"
 #include "platform/logger.h"
 
 #include "dev-magnetometer.h"
 #include "dev-adc.h"
+#include "blackboard.h"
 
 __HYDRUS_BEGIN
 
@@ -33,6 +35,24 @@ public:
         for(int i = 0; i < 4; i++)
             adcValues[i] = m_adc.get_volts(i);
             
+        // make sense of adc values
+        float waterPH = adcValues[0];
+        float waterTemp = adcValues[1];
+        float waterTurb = adcValues[2];
+        float battVolts = adcValues[3];
+        
+        // write values to blackboard
+        BB->trans.begin();
+        
+        BB->sensors.imuHeading = m_mag.heading();
+        BB->sensors.waterPH = waterPH;
+        BB->sensors.waterTemp = waterTemp;
+        BB->sensors.waterTurb = waterTurb;
+        BB->sys.battVoltage = battVolts;
+                
+        BB->sys.battLevel = hClamp((battVolts - Tr::MIN_BATT_V) / (Tr::MAX_BATT_V - Tr::MIN_BATT_V));
+        BB->trans.end();
+        
         return true; // keep running
     }
     
