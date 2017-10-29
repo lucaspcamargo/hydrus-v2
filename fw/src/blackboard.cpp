@@ -28,6 +28,9 @@ void Blackboard::init()
     _bbWantsToSwap = new P::Mutex();
     _bbReaderControlLock = new P::Mutex();
     _bbPointerControlLock = new P::Mutex();
+    
+    BB = bb;
+    BBro = bb+1;
 }
 
 void Blackboard::Transactional::begin( bool ro )
