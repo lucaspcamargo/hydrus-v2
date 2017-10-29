@@ -54,8 +54,7 @@ private:
             reg = 0x05;
         else reg = 0x03; // x, err
         
-        uint16_t val = bus.read_short(reg);
-        return (val & 0x0f << 8) | (val & 0xf0 >> 8); // swap byte order
+        return bus.read_short(reg);
     }
     
     P::I2CBus &bus;
