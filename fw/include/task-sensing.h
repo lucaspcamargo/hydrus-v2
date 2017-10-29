@@ -29,6 +29,8 @@ public:
     
     virtual bool tick() override 
     {
+        
+        
         m_mag.sample();
         
         float adcValues[4];

@@ -21,11 +21,11 @@ public:
   
   static void init();
 
-  bool has_message();
-  const Message get_message_copy();
+  static bool has_message();
+  static const Message get_message_copy();
   
-  const Message & lock_message();
-  void unlock_message();
+  static const Message & lock_message();
+  static void unlock_message();
   
 private:
   static bool tick();

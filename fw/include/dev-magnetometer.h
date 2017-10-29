@@ -2,7 +2,7 @@
 #include "platform/i2c.h"
 #include "hydrus-traits.h"
 
-#include <cstdio>
+// #include <cstdio>
 #include <cmath>
 
 __HYDRUS_BEGIN
@@ -39,7 +39,7 @@ public:
         m_heading = atan2f( m_x, m_y );
         m_heading -= Tr::HEADING_OFFSET;
         
-        fprintf(stderr, "mag %f %f %f %f\n", (double)m_x, (double)m_y, (double)m_z, (double)m_heading );        
+//         fprintf(stderr, "mag %f %f %f %f\n", (double)m_x, (double)m_y, (double)m_z, (double)m_heading );        
     }
         
     const float & x() const { return m_x; }

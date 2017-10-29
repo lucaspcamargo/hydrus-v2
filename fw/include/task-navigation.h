@@ -16,12 +16,18 @@ public:
     
     NavigationTask() : Task()
     {
-        GPS::init();        
+        GPS::init();    
+        bzero(&p_gpsm, sizeof(p_gpsm));
     }
         
     
     virtual bool tick() override 
     {        
+        if(GPS::has_message())
+        {
+            GPS::Message m = GPS::get_message_copy();
+            
+        }
         
         return true; // keep running
     }
@@ -33,7 +39,7 @@ public:
     
     
 private:
-    
+    GPS::Message p_gpsm;
 };
 
 __HYDRUS_END

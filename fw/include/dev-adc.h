@@ -27,7 +27,7 @@ public:
         //        osMUXpgaM-DR
         config = 0b1100001010000011;
         curr_channel = 0;
-        sendConfig();
+        send_config();
     }    
     
     int32_t get( int channel )
@@ -38,7 +38,7 @@ public:
             P::Thread::usleep( 10 * 1000 ); // sleep for 10 ms
         }
         
-        int32_t ret = readRegister(0);
+        int32_t ret = read_register(0);
         
         return ret;
     }
@@ -56,9 +56,9 @@ public:
     
 private:
     
-    void sendConfig()
+    void send_config()
     {
-        writeRegister( 0x01, config );
+        write_register( 0x01, config );
     }
     
     void setChannel(int channel)
@@ -68,12 +68,12 @@ private:
         
         config &= 0b1100111111111111;
         config |= channel << 12;
-        sendConfig();
+        send_config();
         
         curr_channel = channel;
     }
     
-    uint16_t readRegister(uint8_t reg)
+    uint16_t read_register(uint8_t reg)
     {
         bus.select_slave(Tr::I2C_ADDRESS);
         bus.write(&reg, 1);
@@ -82,7 +82,7 @@ private:
         return readout[0] << 8 | readout[1];
     }
     
-    void writeRegister(uint8_t reg, uint16_t value)
+    void write_register(uint8_t reg, uint16_t value)
     {
         bus.select_slave(Tr::I2C_ADDRESS);
         bus.write_short(reg, value);
