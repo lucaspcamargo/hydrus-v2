@@ -8,6 +8,7 @@
 #include "task-navigation.h"
 #include "task-sensing.h"
 #include "task-system.h"
+#include "task-comm.h"
 
 __HYDRUS_BEGIN
 
@@ -31,10 +32,12 @@ public:
         PeriodicThread sys( new SystemTask() );
         PeriodicThread sen( new SensingTask() );
         PeriodicThread nav( new NavigationTask() );
+        PeriodicThread comm( new CommTask(*nav.task()) );
                 
         nav.join();
         sen.join();
         sys.join();
+        comm.join();
         
         P::Logger::log("application", "joined all threads");      
         P::Logger::log("application", "finished");        

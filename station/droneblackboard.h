@@ -1,1 +1,1 @@
-/home/camargo/hydrus/drone-firmware/drone-firmware/blackboard.h
+../fw/include/blackboard.h

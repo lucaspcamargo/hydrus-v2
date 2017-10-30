@@ -116,7 +116,6 @@ void _gps_lineReceived()
     
     if(data)
         nmea_free(data);
-    
 }
 
 bool GPS::tick()

@@ -6,6 +6,8 @@
 
 QT       += core gui network
 
+DEFINES += "STATION_APP=1"
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 LIBS    += -lmarblewidget-qt5 -lKF5CoreAddons
 INCLUDEPATH += /usr/include/KF5/KCoreAddons

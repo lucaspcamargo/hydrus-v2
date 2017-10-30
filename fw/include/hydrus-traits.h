@@ -29,6 +29,14 @@ template<> struct Traits< NavigationTask >
 {
     static const uint64_t TASK_FREQ = 10;
     static const uint64_t THREAD_INTERVAL_us = 1000000ul / TASK_FREQ;
+    
+    static constexpr float RC_SPEED_FACTOR = 0.3;
+};
+
+template<> struct Traits< CommTask >
+{
+    static const uint64_t TASK_FREQ = 20;
+    static const uint64_t THREAD_INTERVAL_us = 1000000ul / TASK_FREQ;
 };
 
 
@@ -67,6 +75,22 @@ template<> struct Traits< Magnetometer >
     static constexpr float HEADING_OFFSET = 0.0f; // TODO calibrate
 };
 
+template<> struct Traits< Motors >
+{
+    static const int P_MULT = 65536; // scale the periods from 8 bit to 24 bit
+    
+    // experimental values
+    static const int PERIOD_MAX = 255 * P_MULT;
+    static const int MIN_PERIOD = 6 * P_MULT;
+    static const int MAX_PERIOD = 250 * P_MULT;
+    static const int MIN_DEADBAND = 0 * P_MULT;
+    
+    static const bool SIM_MODE_DISABLES_MOTORS = true;
+    
+    static constexpr float MOTOR_FACTOR_L = 0.6;
+    static constexpr float MOTOR_FACTOR_R = 1.0;
+};
+
 template<> struct Traits< NavController >
 {
     typedef float nav_f_t;
@@ -90,5 +114,17 @@ template<> struct Traits< NavController >
     static constexpr nav_f_t timeForArrival = 5; // 5 seconds
 };
 
+
+template<> struct Traits< Station >
+{
+#ifdef __arm__
+    static constexpr const char * STATION_HOST = "10.42.0.1";    
+#else
+    static constexpr const char * STATION_HOST = "127.0.0.1";
+#endif
+    static const int CONNECTION_ATTEMPT_PERIOD_MS = 5000;
+    static const int STATION_PORT = 6666;
+    static const int STATION_BB_SEND_INTERVAL = 50;
+};
 __HYDRUS_END
 

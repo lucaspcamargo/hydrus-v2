@@ -11,9 +11,12 @@
 
 #pragma once
 
+#ifndef STATION_APP
 #include "hydrus-config.h"
 
 __HYDRUS_BEGIN
+#endif 
+
 
 enum SystemState {
     SS_INITIALIZING,
@@ -152,4 +155,6 @@ public:
     bool m_ro;    
 };
 
+#ifndef STATION_APP
 __HYDRUS_END;
+#endif

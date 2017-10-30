@@ -10,7 +10,6 @@
 __HYDRUS_BEGIN
 
 #define deg2rad(x) ((x) * ((nav_f_t)0.017453292519943295))
-#define abs(x) ((x) < 0? -x : x)
 
 class NavController
 {

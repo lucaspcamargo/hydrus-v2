@@ -42,6 +42,8 @@ I2CBus::I2CBus( int index, Speed spd )
     {
         Logger::log("linux|i2c", "could not open", Logger::DEBUG);
     }
+    
+    p->fd = 0;
 }
 
 I2CBus::~I2CBus( )

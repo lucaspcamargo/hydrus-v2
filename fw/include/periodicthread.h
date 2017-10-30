@@ -23,6 +23,8 @@ public:
     
     void stop() { m_running = false; }
     
+    Task *task(){ return m_task; }
+    
 private:
     Task *m_task;
     P::Timer m_timer;

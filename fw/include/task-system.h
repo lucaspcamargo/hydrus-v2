@@ -5,7 +5,7 @@
 
 #include "task.h"
 #include "platform/logger.h"
-
+#include "support/sys-stats.h"
 
 __HYDRUS_BEGIN
 
@@ -17,11 +17,22 @@ public:
     
     SystemTask() : Task()
     {
-        
+        BB->trans.begin();        
+        BB->sys.state = SS_READY;        
+        BB->trans.end();
     }        
     
     virtual bool tick() override 
     {
+        static int counter = 0;
+        
+        counter ++;
+        if(counter == Tr::TASK_FREQ) // every second
+        {
+            counter = 0;
+            update_system_stats();            
+        }
+        
         return true; // keep running
     }
     
@@ -29,10 +40,17 @@ public:
     {        
         return Tr::THREAD_INTERVAL_us;
     }
-    
+        
     
 private:
     
+    void update_system_stats()
+    {
+        BB->trans.begin();        
+        BB->sys.coreTemp = readSOCTemperature();   
+        BB->sys.cpuLoad = readCPULoad();
+        BB->trans.end();        
+    }    
 };
 
 __HYDRUS_END
