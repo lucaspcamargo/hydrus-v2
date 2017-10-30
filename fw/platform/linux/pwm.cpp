@@ -1,4 +1,5 @@
 #include "platform/pwm.h"
+#include "platform/logger.h"
 
 #define PWMBITS 24
 
