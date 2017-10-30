@@ -29,7 +29,7 @@ const char * StatusWidget__sysStateStr(SystemState st)
      {"INITIALIZING",
       "READY",
       "NAVIGATING",
-      "BUSY",
+      "SHUTDOWN",
       "HALTED",
       "FAULT"};
 
@@ -42,7 +42,7 @@ const char * StatusWidget__sysStateColor(SystemState st)
      {"#936",
       "#690",
       "#fc0",
-      "#f60",
+      "#923",
       "#ff5050",
       "#c00"};
 

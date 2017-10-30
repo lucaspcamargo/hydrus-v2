@@ -33,6 +33,14 @@ public:
             update_system_stats();            
         }
         
+        BB->trans.begin();        
+        if(BB->sys.state == SS_SHUTDOWN)
+        {
+            // TODO sync code goes here
+            BB->sys.state = SS_HALTED;        
+        }
+        BB->trans.end();
+        
         BBro->trans.begin(true); // read-only interaction
         if(BBro->sys.state == SS_HALTED)
         { 

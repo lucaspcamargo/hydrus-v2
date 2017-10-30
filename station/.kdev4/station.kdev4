@@ -7,7 +7,7 @@ Launch Configurations=Launch Configuration 0
 [Launch][Launch Configuration 0]
 Configured Launch Modes=execute
 Configured Launchers=nativeAppLauncher
-Name=New Compiled Binary Launcher
+Name=station
 Type=Native Application
 
 [Launch][Launch Configuration 0][Data]
