@@ -73,9 +73,6 @@ public:
         m_motors.tick();
         
         
-        
-        
-        
         if(gpsDirty)
         {
             BB->trans.begin();
@@ -112,9 +109,9 @@ public:
     
 private:
     
-    bool validateRoute()
+    bool validateRoute(const Waypoints & wps)
     {
-        return m_waypoints.size() > 1; // more complex logic can be put here      
+        return wps.size() > 1; // more complex logic can be put here      
     }
     
     void parseRoute(const char *cmd)
@@ -148,9 +145,9 @@ private:
             
         }
         
-        if(validateRoute())
+        if(validateRoute(wps))
         {
-            m_waypoints= wps;
+            m_waypoints = wps;
             P::Logger::log("nav", "Received new route");
         }
         else
