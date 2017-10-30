@@ -16,5 +16,5 @@ set( HYDRUS_P_SRCS
 set( HYDRUS_P_LIBS -lpthread )
 
 if( CMAKE_SYSTEM_PROCESSOR MATCHES "arm" )
-    set( HYDRUS_P_LIBS -lpigpio -lrt )
+    set( HYDRUS_P_LIBS ${HYDRUS_P_LIBS} -lpigpio -lrt )
 endif( CMAKE_SYSTEM_PROCESSOR MATCHES "arm" )
