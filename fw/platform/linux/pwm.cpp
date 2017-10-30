@@ -20,7 +20,7 @@ bool pigpio_ensure_initialized()
     
     if(!done)
     {
-        if(pigpioInitialise() >= 0)
+        if(gpioInitialise() >= 0)
             done = true;
         else
             Logger::log("pigpio", "failed to init");
@@ -54,7 +54,7 @@ PWM::~PWM()
 
 void PWM::set( uint32_t value )
 {
-    if(!pigpio_ensure_inmitialized())
+    if(!pigpio_ensure_initialized())
         return;
     
     uint64_t dc = 1000000ull * value / (1 << PWMBITS-1);
