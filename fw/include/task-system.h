@@ -33,6 +33,16 @@ public:
             update_system_stats();            
         }
         
+        BBro->trans.begin(true); // read-only interaction
+        if(BBro->sys.state == SS_HALTED)
+        { 
+            if(BBro->sys.reboot)
+                system("reboot"); // reboot linux
+            else
+                system("shutdown now"); // clean up linux
+        }
+        BBro->trans.end(true);
+        
         return true; // keep running
     }
     
