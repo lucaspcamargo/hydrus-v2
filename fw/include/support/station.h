@@ -135,6 +135,7 @@ public:
             } else if (errno == EPIPE){
                 P::Logger::log("station", "Connection dropped");
             } else
+                perror("station::write");
                 P::Logger::log("station", "Failed to write to socket (connection drop?)");
             _connected = false;
             close(_sock);

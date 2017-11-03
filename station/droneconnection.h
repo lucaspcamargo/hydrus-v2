@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QTcpServer>
+#include <QAbstractSocket>
 #include <QByteArray>
 
 class Blackboard;
@@ -41,6 +42,8 @@ public slots:
     void handleConnection();
     void handleSocketDisconnect();
     void handleSocketReadyRead();
+    void handleSocketStateChanged(QAbstractSocket::SocketState);
+    void handleSocketError(QAbstractSocket::SocketError);
 
     void disconnect();
 

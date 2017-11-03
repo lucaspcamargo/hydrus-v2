@@ -3,6 +3,7 @@
 #include <QTcpSocket>
 #define BB_NO_TO_STRING
 #include "droneblackboard.h"
+#include <QtNetwork/QTcpSocket>
 
 DroneConnection::DroneConnection(QObject *parent) :
     QTcpServer(parent),
@@ -39,7 +40,9 @@ void DroneConnection::handleConnection()
     }
 
     m_drone = nextPendingConnection();
-
+    
+    connect(m_drone, &QTcpSocket::stateChanged, this, &DroneConnection::handleSocketStateChanged);
+    connect(m_drone, static_cast<void(QAbstractSocket::*)(QAbstractSocket::SocketError)>(&QAbstractSocket::error), this, &DroneConnection::handleSocketError);
     connect(m_drone, &QTcpSocket::disconnected, this, &DroneConnection::handleSocketDisconnect);
     connect(m_drone, &QTcpSocket::readyRead, this, &DroneConnection::handleSocketReadyRead);
 
@@ -111,6 +114,18 @@ void DroneConnection::handleSocketReadyRead()
         }
     }
 }
+
+void DroneConnection::handleSocketStateChanged(QAbstractSocket::SocketState i)
+{
+    qDebug() << "Socket state " << i;    
+}
+
+void DroneConnection::handleSocketError(QAbstractSocket::SocketError i)
+{
+    qDebug() << "Socket error " << i;
+}
+
+
 
 void DroneConnection::disconnect()
 {
