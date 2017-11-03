@@ -182,7 +182,7 @@ private:
             
         }
         
-        m_control.setup(m_route);
+        m_controller.setup(m_waypoints);
     }
     
     GPS::Message p_gpsm;
