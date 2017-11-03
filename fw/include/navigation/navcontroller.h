@@ -46,7 +46,8 @@ public:
     
     bool withinRange(nav_f_t lon, nav_f_t lat, bool exit = false)
     {
-        return calcDistance_m(lon, lat, BB->nav.gpsLon, BB->nav.gpsLat) < (exit? Tr::rangeToleranceRadius_m : Tr::rangeToleranceExitRadius_m);
+        BlackboardTransaction trans( true );
+        return calcDistance_m(lon, lat, BBro->nav.gpsLon, BBro->nav.gpsLat) < (exit? Tr::rangeToleranceRadius_m : Tr::rangeToleranceExitRadius_m);
     }
     
     /**

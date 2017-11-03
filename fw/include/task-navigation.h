@@ -159,8 +159,30 @@ private:
     }
 
     void beginNavigation()
-    {
+    {        
+        // check navigation state here
         
+        if(!m_waypoints.size())
+        {
+            P::Logger::log("nav", "No valid route specified. Can't begin navigation.");
+            return;
+        }
+        
+        BBro->trans.begin(true);
+        if(!BBro->nav.gpsHasFix)
+        {
+            P::Logger::log("nav", "Drone GPS has no fix. Can't begin navigation.");
+            return;
+        }
+        BBro->trans.end(true);
+        
+        if(!m_controller.withinRange(m_waypoints[0].longitude, m_waypoints[0].latitude))
+        {      
+            P::Logger::log("nav", "Drone is not within range of base station location");
+            
+        }
+        
+        m_control.setup(m_route);
     }
     
     GPS::Message p_gpsm;
