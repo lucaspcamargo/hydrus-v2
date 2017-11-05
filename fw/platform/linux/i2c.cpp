@@ -17,6 +17,8 @@
 __HYDRUS_PLATFORM_BEGIN
 
 #include <pigpio.h>
+#include "pigpio/pigpio-helper.h"
+
 struct LinuxI2CPrivate
 {
     int fd;
@@ -31,6 +33,8 @@ I2CBus::I2CBus( int index, Speed spd )
     
     p->fd = 0;
     index += 1;
+    
+    pigpio_ensure_initialized();
 }
 
 I2CBus::~I2CBus( )
@@ -39,6 +43,8 @@ I2CBus::~I2CBus( )
     REQUIRE_OPEN
     
     select_slave(0);
+    
+    pigpio_ensure_terminated();
 }
 
 void I2CBus::select_slave( Address addr )
