@@ -3,6 +3,7 @@
 #include "hydrus-config.h"
 #include "platform/pwm.h"
 #include "blackboard.h"
+#include <cmath>
 
 __HYDRUS_BEGIN
 
