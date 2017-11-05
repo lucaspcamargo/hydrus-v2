@@ -161,6 +161,19 @@ bool I2CBus::write_short ( Register reg, uint16_t value )
         Logger::log("linux|i2c", "cant write", Logger::WARNING);
 }
 
+
+uint16_t I2CBus::read_short_smbus ( Register reg)
+{
+    USE_PRIVATE
+    return i2c_smbus_read_word_data(p->fd, reg);
+}
+
+bool I2CBus::write_short_smbus ( Register reg, uint16_t value )
+{
+    USE_PRIVATE
+    return !i2c_smbus_write_word_data(p->fd, reg, value);
+}
+
 size_t I2CBus::read( void * dst, size_t len )
 {
     USE_PRIVATE
