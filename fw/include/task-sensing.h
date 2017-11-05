@@ -11,6 +11,8 @@
 #include "dev-adc.h"
 #include "blackboard.h"
 
+#include "stdio.h"
+
 __HYDRUS_BEGIN
 
 class SensingTask : public Task
@@ -29,8 +31,6 @@ public:
     
     virtual bool tick() override 
     {
-        
-        
         m_mag.sample();
         
         float adcValues[4];
@@ -42,6 +42,8 @@ public:
         float waterTemp = adcValues[1];
         float waterTurb = adcValues[2];
         float battVolts = adcValues[3];
+        
+        fprintf(stderr, "ADC VALUES %d %d %d %d \n", adcvalues[0], adcvalues[1],  adcvalues[2],  adcvalues[3] );
         
         // write values to blackboard
         BB->trans.begin();
