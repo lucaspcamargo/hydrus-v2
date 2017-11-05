@@ -9,9 +9,140 @@
 #include <sys/ioctl.h>
 #include <errno.h>
 
-
 #define USE_PRIVATE LinuxI2CPrivate * const p = (LinuxI2CPrivate *)(this->_p);
 #define REQUIRE_OPEN if(!p->fd) return;
+
+#ifdef __arm__
+
+__HYDRUS_PLATFORM_BEGIN
+
+struct LinuxI2CPrivate
+{
+    int fd;
+    I2CBus::Address lastAddr;
+};
+
+I2CBus::I2CBus( int index, Speed spd )
+{
+    _p = new LinuxI2CPrivate();
+    
+    USE_PRIVATE
+    
+    p->fd = 0;
+    index += 1;
+}
+
+I2CBus::~I2CBus( )
+{
+    USE_PRIVATE
+    REQUIRE_OPEN
+    
+    select_slave(0);
+}
+
+void I2CBus::select_slave( Address addr )
+{
+    USE_PRIVATE
+    REQUIRE_OPEN
+    
+    if(p->lastAddr == addr)
+        return;
+    
+    if(p->fd)
+    {
+        i2cClose(p->fd);
+        p->fd = 0;
+    }
+    
+    if(addr)
+        p->fd = i2cOpen(1, addr, 0);
+    
+    p->lastAddr = addr;
+}
+
+uint8_t I2CBus::read_byte ( Register reg )
+{
+    USE_PRIVATE    
+    if(!p->fd) return 0xff;
+    
+    return i2cReadByteData(p->fd, reg);
+}
+
+bool I2CBus::write_byte ( Register reg, uint8_t value )
+{
+    USE_PRIVATE
+    if(!p->fd) return false;
+    
+    return !i2cWriteByteData(p->fd, reg, value);
+}
+
+uint16_t I2CBus::read_short ( Register reg, bool lendian )
+{
+    USE_PRIVATE    
+    if(!p->fd) return 0xffff;
+    
+    return i2cReadWordData(p->fd, reg);
+}
+
+bool I2CBus::write_short ( Register reg, uint16_t value )
+{
+    USE_PRIVATE
+    if(!p->fd) return false;
+    
+    return !i2cWriteWordData(p->fd, reg, value);
+}
+
+
+uint16_t I2CBus::read_short_smbus ( Register reg)
+{
+    USE_PRIVATE    
+    if(!p->fd) return 0xffff;
+    
+    return i2cReadWordData(p->fd, reg);
+}
+
+bool I2CBus::write_short_smbus ( Register reg, uint16_t value )
+{
+    USE_PRIVATE
+    if(!p->fd) return false;
+    
+    return !i2cWriteWordData(p->fd, reg, value);
+}
+
+size_t I2CBus::read( void * dst, size_t len )
+{
+//     USE_PRIVATE    
+//     if(!p->fd) return 0xff;
+//     
+//     return i2cReadByteData(p->fd, reg);
+    return -1;
+}
+
+size_t I2CBus::write( void * src, size_t len )
+{
+//     USE_PRIVATE
+//     if(!p->fd) return -1;
+//     
+//     return ::write(p->fd, src, len);
+    return -1;
+}
+
+I2CBus & I2CBus::getBusInstance( int index )
+{
+    (void) index;
+    
+    static I2CBus * bus = 0;
+    
+    if (!bus)
+        bus = new I2CBus(index, I2CBus::DefaultSpeed);
+    
+    return *bus;
+}
+
+__HYDRUS_PLATFORM_END
+
+
+#else
 
 
 __HYDRUS_PLATFORM_BEGIN
@@ -30,9 +161,9 @@ I2CBus::I2CBus( int index, Speed spd )
     
     p->fd = 0;
     
-#ifdef __arm__
+    #ifdef __arm__
     index += 1;
-#endif
+    #endif
     
     char fname[64];
     snprintf(fname, 64, "/dev/i2c-%d", index);
@@ -178,7 +309,7 @@ size_t I2CBus::read( void * dst, size_t len )
 {
     USE_PRIVATE
     if(!p->fd) return -1;
-
+    
     return ::read(p->fd, dst, len);    
 }
 
@@ -203,3 +334,6 @@ I2CBus & I2CBus::getBusInstance( int index )
 }
 
 __HYDRUS_PLATFORM_END
+
+
+#endif
