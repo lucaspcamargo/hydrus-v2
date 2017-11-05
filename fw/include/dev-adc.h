@@ -76,13 +76,14 @@ private:
     uint16_t read_register(uint8_t reg)
     {
         bus.select_slave(Tr::I2C_ADDRESS);
-        return bus.read_short(reg);
+        uint16_t val = bus.read_short_smbus(reg);
+        return (val >> 8) | ((val & 0xff) << 8);
     }
     
-    void write_register(uint8_t reg, uint16_t value)
+    void write_register(uint8_t reg, uint16_t val)
     {
         bus.select_slave(Tr::I2C_ADDRESS);
-        bus.write_short(reg, value);
+        bus.write_short_smbus(reg, (val >> 8) | ((val & 0xff) << 8));
     }
     
     P::I2CBus &bus;
