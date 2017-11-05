@@ -45,8 +45,8 @@ public:
             BB->trans.begin();
             BB->nav.motor.enabled = true;
             // TODO proper trigonometry maybe
-            BB->nav.motor.spdL = fmax(0, fmin(1, +Tr::RC_SPEED_FACTOR*BB->nav.rcVecX + fmax(0, Tr::RC_SPEED_FACTOR*BB->nav.rcVecY)));
-            BB->nav.motor.spdR = fmax(0, fmin(1, -Tr::RC_SPEED_FACTOR*BB->nav.rcVecX + fmax(0, Tr::RC_SPEED_FACTOR*BB->nav.rcVecY)));
+            BB->nav.motor.spdL = fmin(1, fmax(0, +Tr::RC_SPEED_FACTOR*BB->nav.rcVecX + fmax(0, Tr::RC_SPEED_FACTOR*BB->nav.rcVecY)));
+            BB->nav.motor.spdR = fmin(1, fmax(0, -Tr::RC_SPEED_FACTOR*BB->nav.rcVecX + fmax(0, Tr::RC_SPEED_FACTOR*BB->nav.rcVecY)));
             BB->trans.end();
         }
         else
