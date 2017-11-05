@@ -58,7 +58,11 @@ private:
     
     void send_config()
     {
-        write_register( 0x01, config );
+        if(!write_register( 0x01, config ))
+        {
+            P::Logger::log("adc", "configuration failed");
+            perror("THINGUIE");
+        }
     }
     
     void setChannel(int channel)
@@ -80,10 +84,10 @@ private:
         return (val >> 8) | ((val & 0xff) << 8);
     }
     
-    void write_register(uint8_t reg, uint16_t val)
+    bool write_register(uint8_t reg, uint16_t val)
     {
         bus.select_slave(Tr::I2C_ADDRESS);
-        bus.write_short_smbus(reg, (val >> 8) | ((val & 0xff) << 8));
+        return bus.write_short_smbus(reg, (val >> 8) | ((val & 0xff) << 8));
     }
     
     P::I2CBus &bus;
