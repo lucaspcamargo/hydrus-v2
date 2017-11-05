@@ -88,7 +88,7 @@ template<> struct Traits< Motors >
     static const bool SIM_MODE_DISABLES_MOTORS = true;
     
     static constexpr float MOTOR_FACTOR_L = 0.6;
-    static constexpr float MOTOR_FACTOR_R = 1.0;
+    static constexpr float MOTOR_FACTOR_R = 0.6;
 };
 
 template<> struct Traits< NavController >
