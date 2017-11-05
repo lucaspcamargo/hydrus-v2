@@ -16,6 +16,7 @@
 
 __HYDRUS_PLATFORM_BEGIN
 
+#include <pigpio.h>
 struct LinuxI2CPrivate
 {
     int fd;
