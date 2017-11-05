@@ -50,7 +50,7 @@ public:
     
     float get_volts( int channel )
     {
-        return get(channel) * Tr::VOLTS_PER_LSB ;
+        return get(channel);// * Tr::VOLTS_PER_LSB ;
     }
     
     
