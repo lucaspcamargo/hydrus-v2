@@ -154,8 +154,8 @@ bool I2CBus::write_short ( Register reg, uint16_t value )
     
     char buf[3];
     buf[0] = reg;
-    buf[1] = ((char*)&value)[1]; // high byte
-    buf[2] = ((char*)&value)[0]; // low byte
+    buf[1] = 0xff & (value >> 8); // high byte
+    buf[2] = 0xff & value; // low byte
     
     if(::write(p->fd, buf, 3) != 3)
         Logger::log("linux|i2c", "cant write", Logger::WARNING);

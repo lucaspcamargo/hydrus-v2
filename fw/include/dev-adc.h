@@ -66,7 +66,7 @@ private:
         if(channel < 0 || channel > 3)
             return;
         
-        config &= 0b1100111111111111;
+        config &= ~(0b11 << 12);
         config |= channel << 12;
         send_config();
         
@@ -76,10 +76,7 @@ private:
     uint16_t read_register(uint8_t reg)
     {
         bus.select_slave(Tr::I2C_ADDRESS);
-        bus.write(&reg, 1);
-        char readout[2];
-        bus.read(readout, 2);
-        return readout[0] << 8 | readout[1];
+        return bus.read_short(reg);
     }
     
     void write_register(uint8_t reg, uint16_t value)
