@@ -43,7 +43,7 @@ public:
         float waterTurb = adcValues[2];
         float battVolts = adcValues[3];
         
-        fprintf(stderr, "ADC VALUES %d %d %d %d \n", adcvalues[0], adcvalues[1],  adcvalues[2],  adcvalues[3] );
+        fprintf(stderr, "ADC VALUES %d %d %d %d \n", adcValues[0], adcValues[1],  adcValues[2],  adcValues[3] );
         
         // write values to blackboard
         BB->trans.begin();
