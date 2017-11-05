@@ -12,7 +12,7 @@
 #define USE_PRIVATE LinuxI2CPrivate * const p = (LinuxI2CPrivate *)(this->_p);
 #define REQUIRE_OPEN if(!p->fd) return;
 
-#ifdef __arm__
+#ifdef __armasd__
 
 __HYDRUS_PLATFORM_BEGIN
 
