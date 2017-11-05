@@ -49,6 +49,7 @@ public:
         BB->trans.begin();
         
         BB->sensors.imuHeading = m_mag.heading();
+        fprintf(stderr, "HEADING %f \n", BB->sensors.imuHeading);
 //         BB->sensors.waterPH = waterPH;
 //         BB->sensors.waterTemp = waterTemp;
 //         BB->sensors.waterTurb = waterTurb;
