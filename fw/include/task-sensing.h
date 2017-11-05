@@ -23,7 +23,7 @@ public:
     
     SensingTask() : 
     Task(),
-    m_adc(P::I2CBus::getBusInstance(0)),
+//     m_adc(P::I2CBus::getBusInstance(0)),
     m_mag(P::I2CBus::getBusInstance(0))
     {
         
@@ -33,7 +33,7 @@ public:
     {
         m_mag.sample();
         
-        float adcValues[4];
+        /*float adcValues[4];
         for(int i = 0; i < 4; i++)
             adcValues[i] = m_adc.get_volts(i);
             
@@ -41,20 +41,20 @@ public:
         float waterPH = adcValues[0];
         float waterTemp = adcValues[1];
         float waterTurb = adcValues[2];
-        float battVolts = adcValues[3];
+        float battVolts = adcValues[3];*/
         
-        fprintf(stderr, "ADC VALUES %f %f %f %f \n", adcValues[0], adcValues[1],  adcValues[2],  adcValues[3] );
+//         fprintf(stderr, "ADC VALUES %f %f %f %f \n", adcValues[0], adcValues[1],  adcValues[2],  adcValues[3] );
         
         // write values to blackboard
         BB->trans.begin();
         
         BB->sensors.imuHeading = m_mag.heading();
-        BB->sensors.waterPH = waterPH;
-        BB->sensors.waterTemp = waterTemp;
-        BB->sensors.waterTurb = waterTurb;
-        BB->sys.battVoltage = battVolts;
+//         BB->sensors.waterPH = waterPH;
+//         BB->sensors.waterTemp = waterTemp;
+//         BB->sensors.waterTurb = waterTurb;
+//         BB->sys.battVoltage = battVolts;
                 
-        BB->sys.battLevel = hClamp((battVolts - Tr::MIN_BATT_V) / (Tr::MAX_BATT_V - Tr::MIN_BATT_V));
+//         BB->sys.battLevel = hClamp((battVolts - Tr::MIN_BATT_V) / (Tr::MAX_BATT_V - Tr::MIN_BATT_V));
         BB->trans.end();
         
         return true; // keep running
@@ -67,7 +67,7 @@ public:
     
     
 private:
-    ADC m_adc;
+//     ADC m_adc;
     Magnetometer m_mag;
 };
 

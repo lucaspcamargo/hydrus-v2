@@ -119,7 +119,8 @@ void StatusWidget::blackboardUpdate(Blackboard *bb_in)
     }
     UPDATE_BLOCK(nav.geoHeading)
     {
-        ui->dNavGpsHeading->setText(bb.nav.gpsHasFix? QString("%1").arg(bb.nav.geoHeading) : "-");
+//         ui->dNavGpsHeading->setText(bb.nav.gpsHasFix? QString("%1").arg(bb.nav.geoHeading) : "-");
+        ui->dNavGpsHeading->setText(QString("%1").arg(bb.sensors.imuHeading));
     }
     UPDATE_BLOCK(nav.distanceFromNextWaypoint)
     {

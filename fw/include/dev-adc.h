@@ -58,10 +58,10 @@ private:
     
     void send_config()
     {
+        
         if(!write_register( 0x01, config ))
         {
-            P::Logger::log("adc", "configuration failed");
-            perror("THINGUIE");
+//             P::Logger::log("adc", "configuration failed");
         }
     }
     
