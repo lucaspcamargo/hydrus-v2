@@ -58,7 +58,9 @@ void PWM::set( uint32_t value )
     if(!pigpio_ensure_initialized())
         return;
     
-    uint64_t dc = 1000000ull * value / (1 << PWMBITS-1);
+    uint64_t dc = value < 0? 0 : 1000000ull * value / (1 << PWMBITS-1);
+    if(dc > 1000000)
+        dc = 1000000;
     gpioHardwarePWM(_ch? 19 : 18, PWMFREQ, dc);
 }
 

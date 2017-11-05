@@ -26,7 +26,7 @@ public:
 
         uint32_t diff = maxValue - minValue;
         
-        return minValue + alpha * diff;
+        return minValue + fmin(1,fmax(0,alpha)) * diff;
     }
 
     void tick()
