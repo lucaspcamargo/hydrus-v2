@@ -62,8 +62,11 @@ void I2CBus::select_slave( Address addr )
     }
     
     if(addr)
+    {
         p->fd = i2cOpen(1, addr, 0);
-    
+        if(p->fd < 0) {fprintf(stderr, "i2C OPEN ERROR %d\n", p->fd); p->fd = 0;}
+    }
+
     p->lastAddr = addr;
 }
 
