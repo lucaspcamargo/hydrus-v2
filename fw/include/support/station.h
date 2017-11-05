@@ -126,6 +126,7 @@ public:
     
     bool write(const void * data, size_t s)
     {
+        errno = 0;
         int ret = send(_sock, data, s, MSG_NOSIGNAL);
         if(ret == -1)
         {
@@ -134,8 +135,9 @@ public:
                 P::Logger::log("station", "Send buffer too full");
             } else if (errno == EPIPE){
                 P::Logger::log("station", "Connection dropped");
-            } else
-                perror("station::write");
+            } //else
+
+                P::Logger::log("station::write", strerror(errno));
                 P::Logger::log("station", "Failed to write to socket (connection drop?)");
             _connected = false;
             close(_sock);
