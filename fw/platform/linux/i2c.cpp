@@ -52,12 +52,11 @@ I2CBus::~I2CBus( )
 void I2CBus::select_slave( Address addr )
 {
     USE_PRIVATE
-    REQUIRE_OPEN
     
     if(p->lastAddr == addr)
         return;
     
-    if(p->fd)
+    if(p->fd >= 0)
     {
         i2cClose(p->fd);
         p->fd = 0;
