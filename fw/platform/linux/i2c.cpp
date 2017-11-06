@@ -10,7 +10,6 @@
 #include <errno.h>
 
 #define USE_PRIVATE LinuxI2CPrivate * const p = (LinuxI2CPrivate *)(this->_p);
-#define REQUIRE_OPEN if(!p->fd) return;
 
 #ifdef __armasd__
 
@@ -18,6 +17,9 @@ __HYDRUS_PLATFORM_BEGIN
 
 #include <pigpio.h>
 #include "pigpio/pigpio-helper.h"
+
+#define REQUIRE_OPEN if(p->fd<0) return;
+
 
 struct LinuxI2CPrivate
 {
@@ -31,7 +33,7 @@ I2CBus::I2CBus( int index, Speed spd )
     
     USE_PRIVATE
     
-    p->fd = 0;
+    p->fd = -1;
     index += 1;
     
     pigpio_ensure_initialized();
@@ -73,7 +75,7 @@ void I2CBus::select_slave( Address addr )
 uint8_t I2CBus::read_byte ( Register reg )
 {
     USE_PRIVATE    
-    if(!p->fd) return 0xff;
+    if(p->fd < 0) return 0xff;
     
     return i2cReadByteData(p->fd, reg);
 }
@@ -81,7 +83,7 @@ uint8_t I2CBus::read_byte ( Register reg )
 bool I2CBus::write_byte ( Register reg, uint8_t value )
 {
     USE_PRIVATE
-    if(!p->fd) return false;
+    if(p->fd < 0) return false;
     
     return !i2cWriteByteData(p->fd, reg, value);
 }
@@ -89,7 +91,7 @@ bool I2CBus::write_byte ( Register reg, uint8_t value )
 uint16_t I2CBus::read_short ( Register reg, bool lendian )
 {
     USE_PRIVATE    
-    if(!p->fd) return 0xffff;
+    if(p->fd < 0) return 0xffff;
     
     return i2cReadWordData(p->fd, reg);
 }
@@ -97,7 +99,7 @@ uint16_t I2CBus::read_short ( Register reg, bool lendian )
 bool I2CBus::write_short ( Register reg, uint16_t value )
 {
     USE_PRIVATE
-    if(!p->fd) return false;
+    if(p->fd < 0) return false;
     
     return !i2cWriteWordData(p->fd, reg, value);
 }
@@ -106,7 +108,7 @@ bool I2CBus::write_short ( Register reg, uint16_t value )
 uint16_t I2CBus::read_short_smbus ( Register reg)
 {
     USE_PRIVATE    
-    if(!p->fd) return 0xffff;
+    if(p->fd < 0) return 0xffff;
     
     return i2cReadWordData(p->fd, reg);
 }
@@ -114,7 +116,7 @@ uint16_t I2CBus::read_short_smbus ( Register reg)
 bool I2CBus::write_short_smbus ( Register reg, uint16_t value )
 {
     USE_PRIVATE
-    if(!p->fd) return false;
+    if(p->fd < 0) return false;
     
     return !i2cWriteWordData(p->fd, reg, value);
 }
@@ -154,6 +156,7 @@ __HYDRUS_PLATFORM_END
 
 #else
 
+#define REQUIRE_OPEN if(!p->fd) return;
 
 __HYDRUS_PLATFORM_BEGIN
 
