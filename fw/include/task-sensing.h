@@ -37,12 +37,10 @@ public:
         for(int i = 0; i < 4; i++)
         {
             float ret = m_adc.get_volts(i);
-            if(ret > 0)
-                adcValues[i] = ret;
         }
         
         // make sense of adc values
-        float waterPH = adcValues[0];
+        float waterPH   = adcValues[0];
         float waterTemp = adcValues[1];
         float waterTurb = adcValues[2];
         float battVolts = adcValues[3];
