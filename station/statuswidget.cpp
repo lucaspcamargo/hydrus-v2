@@ -119,8 +119,7 @@ void StatusWidget::blackboardUpdate(Blackboard *bb_in)
     }
     UPDATE_BLOCK(nav.geoHeading)
     {
-//         ui->dNavGpsHeading->setText(bb.nav.gpsHasFix? QString("%1").arg(bb.nav.geoHeading) : "-");
-        ui->dNavGpsHeading->setText(QString("%1").arg(bb.sensors.imuHeading));
+        ui->dNavGpsHeading->setText(bb.nav.gpsHasFix? QString("%1").arg(bb.nav.geoHeading) : "-");
     }
     UPDATE_BLOCK(nav.distanceFromNextWaypoint)
     {
@@ -134,12 +133,12 @@ void StatusWidget::blackboardUpdate(Blackboard *bb_in)
 
     UPDATE_BLOCK(sensors.waterTurb)
     {
-        ui->dSensTurbidity->setText(QString("%1 NTU").arg((5 - bb.sensors.waterTurb)/1081.08, 0, 'f', 2));
+        ui->dSensTurbidity->setText(QString("%1 NTU").arg((bb.sensors.waterTurb), 0, 'f', 2));
     }
 
     UPDATE_BLOCK(sensors.waterPH)
     {
-        ui->dSensPH->setText(QString("%1").arg(bb.sensors.waterPH*14/5, 0, 'f', 2));
+        ui->dSensPH->setText(QString("%1").arg(bb.sensors.waterPH, 0, 'f', 2));
     }
 
     m_previousBBValid = true;
