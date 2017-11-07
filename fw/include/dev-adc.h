@@ -61,7 +61,7 @@ private:
         
         if(!write_register( 0x01, config ))
         {
-//             P::Logger::log("adc", "configuration failed");
+            P::Logger::log("adc", "configuration failed");
         }
     }
     
