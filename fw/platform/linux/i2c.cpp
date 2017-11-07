@@ -11,7 +11,7 @@
 
 #define USE_PRIVATE LinuxI2CPrivate * const p = (LinuxI2CPrivate *)(this->_p);
 
-#ifdef __armasd__
+#ifdef __arm__
 
 __HYDRUS_PLATFORM_BEGIN
 
