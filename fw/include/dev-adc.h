@@ -40,6 +40,9 @@ public:
         
         int32_t ret = read_register(0);
         
+        if(ret == 65536)
+            ret = -1;
+        
         return ret;
     }
     

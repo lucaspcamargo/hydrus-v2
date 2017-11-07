@@ -35,21 +35,23 @@ public:
         
         float adcValues[4];
         for(int i = 0; i < 4; i++)
-            adcValues[i] = m_adc.get_volts(i);
-            
+        {
+            float ret = m_adc.get_volts(i);
+            if(ret > 0)
+                adcValues[i] = ret;
+        }
+        
         // make sense of adc values
         float waterPH = adcValues[0];
         float waterTemp = adcValues[1];
         float waterTurb = adcValues[2];
         float battVolts = adcValues[3];
         
-        //fprintf(stderr, "ADC VALUES %f %f %f %f \n", adcValues[0], adcValues[1],  adcValues[2],  adcValues[3] );
         
         // write values to blackboard
         BB->trans.begin();
         
         BB->sensors.imuHeading = m_mag.heading();
-        fprintf(stderr, "HEADING %f %f %f %f \n", BB->sensors.imuHeading, m_mag.x(), m_mag.y(), m_mag.z());
         BB->sensors.waterPH = waterPH;
         BB->sensors.waterTemp = waterTemp;
         BB->sensors.waterTurb = waterTurb;
@@ -57,6 +59,9 @@ public:
                 
         BB->sys.battLevel = hClamp((battVolts - Tr::MIN_BATT_V) / (Tr::MAX_BATT_V - Tr::MIN_BATT_V));
         BB->trans.end();
+        
+//         fprintf(stderr, "ADC VALUES %f %f %f %f \n", adcValues[0], adcValues[1],  adcValues[2],  adcValues[3] );
+//         fprintf(stderr, "HEADING %f %f %f %f \n", BB->sensors.imuHeading, m_mag.x(), m_mag.y(), m_mag.z());
         
         return true; // keep running
     }
