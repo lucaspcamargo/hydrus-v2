@@ -21,10 +21,10 @@ bool pigpio_ensure_initialized()
     
     if(!done)
     {
-  //      if(gpioInitialise() >= 0)
+       if(gpioInitialise() >= 0)
             done = true;
-   //     else
-    //        Logger::log("pigpio", "failed to init");
+       else
+           Logger::log("pigpio", "failed to init");
     }
     
     return done;
@@ -36,7 +36,7 @@ void pigpio_ensure_terminated()
     
     if(!done)
     {
-  //      gpioTerminate();
+       gpioTerminate();
         done = true;
     }    
 }
@@ -50,7 +50,7 @@ PWM::PWM(int channel)
 
 PWM::~PWM()
 {
-    pigpio_ensure_terminated();
+//     pigpio_ensure_terminated();
 }
 
 void PWM::set( uint32_t value )
@@ -61,7 +61,7 @@ void PWM::set( uint32_t value )
     uint64_t dc = value < 0? 0 : 1000000ull * value / (1 << PWMBITS-1);
     if(dc > 1000000)
         dc = 1000000;
-//   gpioHardwarePWM(_ch? 19 : 18, PWMFREQ, dc);
+    gpioHardwarePWM(_ch? 19 : 18, PWMFREQ, dc);
 }
 
 int PWM::bits(  ) const
