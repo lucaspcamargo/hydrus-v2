@@ -54,6 +54,7 @@ template<> struct Traits< ADC >
     static const uint32_t MAX_VALUE = (1 << BITS) - 1;
     
     static constexpr float VOLTS_PER_LSB = 0.000125f;  // 125uV
+    static constexpr float VOLTAGE_OFFSET = 4.096f;  
 };
 
 template<> struct Traits< GPS >
