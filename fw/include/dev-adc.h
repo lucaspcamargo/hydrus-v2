@@ -39,6 +39,8 @@ public:
         
         int16_t ret = (int16_t) read_register(0);
         
+        fprintf(stderr, "ADC %d CH %d\n", ret, channel);
+        
         return ret;
     }
     
