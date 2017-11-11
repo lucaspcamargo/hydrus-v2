@@ -10,8 +10,9 @@
 #include "dev-magnetometer.h"
 #include "dev-adc.h"
 #include "blackboard.h"
+#include "sensors.h"
 
-#include "stdio.h"
+// #include "stdio.h"
 
 __HYDRUS_BEGIN
 
@@ -31,19 +32,24 @@ public:
     
     virtual bool tick() override 
     {
+        static PHSensor ph_s;
+        static TemperatureSensor temp_s;
+        static TurbiditySensor turb_s;
+        static BatterySensor batt_s;
+                
         m_mag.sample();
         
         float adcValues[4];
         for(int i = 0; i < 4; i++)
         {
-            float ret = m_adc.get_volts(i);
+            adcValues[i] = m_adc.get_volts(i);
         }
         
         // make sense of adc values
-        float waterPH   = adcValues[0];
-        float waterTemp = adcValues[1];
-        float waterTurb = adcValues[2];
-        float battVolts = adcValues[3];
+        float waterPH   = ph_s.convert(adcValues[0]);
+        float waterTemp = temp_s.convert(adcValues[1]);
+        float waterTurb = turb_s.convert(adcValues[2]);
+        float battVolts = batt_s.convert(adcValues[3]);
         
         
         // write values to blackboard

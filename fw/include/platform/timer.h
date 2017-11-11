@@ -16,6 +16,12 @@ public:
      */
     bool wait();
     
+//     /**
+//      * @brief query if the timer has expired
+//      * @returns false if there was a timeout
+//      */
+//     bool expired( bool reset = false, bool reset_if_expired = false );
+    
     uint64_t period()
     {
         return m_us;

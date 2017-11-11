@@ -153,13 +153,12 @@ public:
         
         // calculate distance
         nav_f_t distance = calcDistance_m(gpsLon, gpsLat, destLon, destLat);
-                
-        #if DRONE_COMPASS_FIXED_DECLINATION
-        nav_f_t correctedHeading = magneticHeading + (DRONE_COMPASS_FIXED_DECLINATION_VALUE);
-        #else
-        // TODO correct using WMM
-        nav_f_t correctedHeading = magneticHeading;        
-        #endif
+        
+        nav_f_t correctedHeading;        
+        if(Tr::USE_FIXED_DECLINATION)
+            correctedHeading = magneticHeading - Tr::FIXED_DECLINATION_DEG;
+        else
+            correctedHeading = magneticHeading;        
         
         nav_f_t heading = deg2rad(correctedHeading);
         nav_f_t angleToDestination = calcBearing_rad(deg2rad(gpsLon), deg2rad(gpsLat), deg2rad(destLon), deg2rad(destLat));

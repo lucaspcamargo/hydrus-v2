@@ -18,6 +18,13 @@ class GPS;
 class Magnetometer;
 class Motors;
 
+// sensors
+class Sensor;
+class PHSensor;
+class TemperatureSensor;
+class TurbiditySensor;
+class BatterySensor;
+
 // misc
 class NavController;
 class Station;

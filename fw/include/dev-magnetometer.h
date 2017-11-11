@@ -37,7 +37,13 @@ public:
         m_z = (read_axis(2));
         
         m_heading = atan2f( m_x, m_y );
-        m_heading -= Tr::HEADING_OFFSET;
+        m_heading -= Tr::HEADING_OFFSET_RAD;
+                
+        while (m_heading < 0) {
+            m_heading += 2 * M_PI;
+        }
+        
+        m_heading *= 57.29577951308232f;//(180.0f / M_PI); // heading is in degrees
         
 //         fprintf(stderr, "mag %f %f %f %f\n", (double)m_x, (double)m_y, (double)m_z, (double)m_heading );        
     }

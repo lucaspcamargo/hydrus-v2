@@ -73,7 +73,7 @@ template<> struct Traits< Magnetometer >
 {
     static const uint8_t I2C_ADDRESS = 0x1e;
     
-    static constexpr float HEADING_OFFSET = 0.0f; // TODO calibrate
+    static constexpr float HEADING_OFFSET_RAD = 0.0f;
 };
 
 template<> struct Traits< Motors >
@@ -90,6 +90,29 @@ template<> struct Traits< Motors >
     
     static constexpr float MOTOR_FACTOR_L = 0.6;
     static constexpr float MOTOR_FACTOR_R = 0.6;
+};
+
+template<> struct Traits< PHSensor >
+{
+    static constexpr float VOLTAGE_OFFSET = 1.25f;
+    static constexpr float SLOPE_PH_PER_VOLT = 100.0f;
+};
+
+template<> struct Traits< TemperatureSensor >
+{
+    static constexpr float VOLTAGE_OFFSET = 1.25f;
+    static constexpr float SLOPE_CELSIUS_PER_VOLT = 100.0f;
+};
+
+template<> struct Traits< TurbiditySensor >
+{
+    inline static float formula_ntu( float volts ) { return volts; };
+};
+
+template<> struct Traits< BatterySensor >
+{
+    static constexpr float RESISTOR_TO_BATTERY = 47e3f; // 47 kOhm
+    static constexpr float RESISTOR_TO_GROUND  = 1.2f;  // 6.8 kOhm
 };
 
 template<> struct Traits< NavController >
@@ -113,6 +136,9 @@ template<> struct Traits< NavController >
     
     static constexpr nav_f_t timeForAlign = 3; // 3 seconds
     static constexpr nav_f_t timeForArrival = 5; // 5 seconds
+    
+    static const bool        USE_FIXED_DECLINATION = true;
+    static constexpr nav_f_t FIXED_DECLINATION_DEG = -19.5666666666f;
 };
 
 

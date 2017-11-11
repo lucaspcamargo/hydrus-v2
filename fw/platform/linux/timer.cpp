@@ -34,13 +34,33 @@ Timer::~Timer()
     close( _pi );
 }
 
-bool Hydrus::P::Timer::wait()
+bool Timer::wait()
 {
     uint64_t expiries;
     
     read(_pi, &expiries, sizeof(uint64_t)); // block until expiration happened
     return expiries <= 1; // false if timeout
 }
+
+// bool Timer::expired(bool reset, bool reset_if_expired)
+// {
+//     
+//     uint64_t buf;
+//     
+//     
+//     // set nonblocking
+//     
+//     ::read( _pi, &buf, sizeof(buf),  );
+//     
+//     // check for EAGAIN
+//     
+//     // set blocking again
+//     
+//     // reset if needed
+//     
+//     // return value
+// }
+
 
 
 __HYDRUS_PLATFORM_END
