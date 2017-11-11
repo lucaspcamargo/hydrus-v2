@@ -12,14 +12,30 @@ public:
 };
 
 
+// has a single-pole IIR filter    
 class PHSensor : public Sensor
 {
     typedef Traits<PHSensor> Tr;
     
 public:
-    PHSensor() {}
+    PHSensor() { filter_mem = -999.9f;}
     
-    virtual float convert( float reading_volts ) override {return 7.0f + (reading_volts - Tr::VOLTAGE_OFFSET) * Tr::SLOPE_PH_PER_VOLT;}
+    virtual float convert( float reading_volts ) override 
+    {
+        
+        float raw = 7.0f + (reading_volts - Tr::VOLTAGE_OFFSET) * Tr::SLOPE_PH_PER_VOLT;
+        
+        if( filter_mem < -100.0f )
+            filter_mem = raw;
+        else
+            filter_mem = 0.95f*filter_mem + 0.05f*raw;
+        
+        return filter_mem;
+        
+    }
+    
+private:
+    float filter_mem;
 };
 
 
