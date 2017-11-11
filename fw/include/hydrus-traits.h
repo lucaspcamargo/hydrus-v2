@@ -94,7 +94,7 @@ template<> struct Traits< Motors >
 
 template<> struct Traits< PHSensor >
 {
-    static constexpr float VOLTAGE_OFFSET = 1.25f;
+    static constexpr float VOLTAGE_OFFSET = 1.65f; // 1.25f original, 1.65f alt board
     static constexpr float SLOPE_PH_PER_VOLT = 100.0f;
 };
 

@@ -1,4 +1,3 @@
-
 #include "platform/i2c.h"
 #include "platform/thread.h"
 #include "hydrus-traits.h"

@@ -19,7 +19,7 @@ class PHSensor : public Sensor
 public:
     PHSensor() {}
     
-    virtual float convert( float reading_volts ) override {return (reading_volts - Tr::VOLTAGE_OFFSET) * Tr::SLOPE_PH_PER_VOLT;}
+    virtual float convert( float reading_volts ) override {return 7.0f + (reading_volts - Tr::VOLTAGE_OFFSET) * Tr::SLOPE_PH_PER_VOLT;}
 };
 
 
@@ -54,7 +54,7 @@ class BatterySensor : public Sensor
 public:
     BatterySensor() {}
     
-    virtual float convert( float reading_volts ) override {return reading_volts / (Tr::RESISTOR_TO_GROUND * (Tr::RESISTOR_TO_BATTERY + Tr::RESISTOR_TO_GROUND));}
+    virtual float convert( float reading_volts ) override {return reading_volts / (Tr::RESISTOR_TO_GROUND / (Tr::RESISTOR_TO_BATTERY + Tr::RESISTOR_TO_GROUND));}
     
 };
 
