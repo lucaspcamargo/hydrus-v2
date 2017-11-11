@@ -34,7 +34,7 @@ public:
         if(curr_channel != channel)
         {
             setChannel( channel );
-            P::Thread::usleep( 10 * 1000 ); // sleep for 10 ms
+            P::Thread::usleep( 15 * 1000 ); // sleep for 15 ms
         }
         
         int16_t ret = (int16_t) read_register(0);
