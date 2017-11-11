@@ -111,7 +111,7 @@ template<> struct Traits< TurbiditySensor >
 template<> struct Traits< BatterySensor >
 {
     static constexpr float RESISTOR_TO_BATTERY = 47e3f; // 47 kOhm
-    static constexpr float RESISTOR_TO_GROUND  = 1.2f;  // 6.8 kOhm
+    static constexpr float RESISTOR_TO_GROUND  = 6.8e3f;  // 6.8 kOhm
 };
 
 template<> struct Traits< NavController >
