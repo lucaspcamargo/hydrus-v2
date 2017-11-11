@@ -24,7 +24,7 @@ public:
     ADC(P::I2CBus &b): bus(b)
     {
         //        osMUXpgaM-DR
-        config = 0b1100001010000011;
+        config = 0b1100001010100011;
         curr_channel = 0;
         send_config();
     }    
@@ -34,7 +34,7 @@ public:
         if(curr_channel != channel)
         {
             setChannel( channel );
-            P::Thread::usleep( 15 * 1000 ); // sleep for 15 ms
+            P::Thread::usleep( 10 * 1000 ); // sleep for 10 ms
         }
         
         int16_t ret = (int16_t) read_register(0);
