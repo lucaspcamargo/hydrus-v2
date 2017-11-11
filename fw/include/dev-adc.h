@@ -37,7 +37,7 @@ public:
             P::Thread::usleep( 10 * 1000 ); // sleep for 10 ms
         }
         
-        int32_t ret = read_register(0);
+        int16_t ret = (int16_t) read_register(0);
         
         return ret;
     }
@@ -49,7 +49,7 @@ public:
     
     float get_volts( int channel )
     {
-        return get(channel) * Tr::VOLTS_PER_LSB - Tr::VOLTAGE_OFFSET;
+        return get(channel) * Tr::VOLTS_PER_LSB;
     }
     
     
