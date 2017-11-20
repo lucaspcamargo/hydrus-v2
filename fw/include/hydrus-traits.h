@@ -94,8 +94,8 @@ template<> struct Traits< PHSensor >
 
 template<> struct Traits< TemperatureSensor >
 {
-    static constexpr float VOLTAGE_OFFSET = 1.25f;
-    static constexpr float SLOPE_CELSIUS_PER_VOLT = 1;
+    static constexpr float VOLTAGE_OFFSET = 0.5f;
+    static constexpr float SLOPE_CELSIUS_PER_VOLT = 100.0f;
 };
 
 template<> struct Traits< TurbiditySensor >
