@@ -86,10 +86,10 @@ template<> struct Traits< Motors >
 
 template<> struct Traits< PHSensor >
 {
-    static constexpr float VOLTAGE_OFFSET = 3.75f; // 1.25f original, 1.63f alt board
-    static constexpr float SLOPE_PH_PER_VOLT = (1.0f / 0.060f); // usually 60mV equals to -1pH from 7
+    static constexpr float VOLTAGE_OFFSET = 1.82f; // calib value
+    static constexpr float SLOPE_PH_PER_VOLT = -(1.0f / 0.060f); // usually 60mV equals to -1pH from 7
     
-    static const bool      CALIBRATION_MODE = true;
+    static const bool      CALIBRATION_MODE = false;
 };
 
 template<> struct Traits< TemperatureSensor >

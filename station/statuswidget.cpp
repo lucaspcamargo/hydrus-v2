@@ -138,7 +138,7 @@ void StatusWidget::blackboardUpdate(Blackboard *bb_in)
 
     UPDATE_BLOCK(sensors.waterPH)
     {
-        ui->dSensPH->setText(QString("%1").arg(bb.sensors.waterPH, 0, 'f', 2));
+        ui->dSensPH->setText(QString("%1").arg(bb.sensors.waterPH, 0, 'f', 4));
     }
 
     m_previousBBValid = true;
