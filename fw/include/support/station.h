@@ -174,6 +174,8 @@ public:
                 queueMessage(in);
             }
             
+            _logmutex.lock();
+            
             while(_logs.size() > 0)
             {
                 std::string str = _logs.front();
@@ -188,6 +190,8 @@ public:
                     if(!write(&c, 1)) goto cleanup;
                     
             }
+            
+            _logmutex.unlock();
             
         }
         
@@ -226,7 +230,7 @@ public:
     
     void queueLog(std::string l)
     {
-        P::MutexLock lock(_mutex);
+        P::MutexLock lock(_logmutex);
         
         _logs.push(l);
     }
@@ -239,6 +243,7 @@ private:
     MessageQueue _msgs;
     MessageQueue _logs;
     P::Mutex _mutex;
+    P::Mutex _logmutex;
 };
 
 __HYDRUS_END
