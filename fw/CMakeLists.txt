@@ -24,12 +24,11 @@ include_directories( ${PROJECT_BINARY_DIR} ./include )
 ## SOURCE FILES
 
 set( SRCS 
-    src/main.cpp    
-    
     src/blackboard.cpp
     src/dev-gps.cpp
+    src/main.cpp    
     src/periodicthread.cpp
-    )
+)
 
     
 ## TARGET

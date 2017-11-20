@@ -101,7 +101,7 @@ public:
             parse_route(cmd);
         }
         
-        if(Util::startsWith("$NAVBEGIN,", cmd))
+        if(Util::startsWith("$NAVBEGIN", cmd))
         {
             begin_navigation();
         }

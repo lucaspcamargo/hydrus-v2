@@ -20,6 +20,8 @@ public:
     CommTask(Task &navTask) : Task(), m_nav_task(navTask)
     {
         P::Logger::register_listener(this);
+        
+        m_st.start();
     }        
     
     virtual bool tick() override 

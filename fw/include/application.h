@@ -33,7 +33,13 @@ public:
         PeriodicThread sen( new SensingTask() );
         PeriodicThread nav( new NavigationTask() );
         PeriodicThread comm( new CommTask(*nav.task()) );
-                
+        
+        sys.start();
+        sen.start();
+        nav.start();
+        comm.start();
+        
+        
         nav.join();
         sen.join();
         sys.join();

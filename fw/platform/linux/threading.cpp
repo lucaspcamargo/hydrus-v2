@@ -53,42 +53,49 @@ void* _linux_Thread_run( void * arg )
 
 Thread::Thread( Thread::Type t )
 {
+    _p = reinterpret_cast<void*>(t);    
+}
+
+Thread::~Thread()
+{
+    // TODO define what to do 
+    if(((uint64_t) (_p)) > Thread::TYPE_COUNT)
+    delete (pthread_t*) _p;
+}
+
+
+void Thread::start()
+{
+    Thread::Type t = (Thread::Type) (uint64_t) (_p);    
+    
     pthread_attr_t attrs;
     pthread_attr_init(&attrs);
-
-//     pthread_attr_setdetachstate(&attrs, PTHREAD_CREATE_JOINABLE);
-
+    
+    //     pthread_attr_setdetachstate(&attrs, PTHREAD_CREATE_JOINABLE);
+    
     _p = new pthread_t;
     int status = pthread_create((pthread_t*)_p, &attrs, &_linux_Thread_run, this);
-
+    
     if (status)
     {
         Logger::log("thread", "create failed");  
         perror("Thread::Thread");
         return;
     }
-
+    
     if( t == LOWPRIO )
     {
         int policy;
         pthread_attr_getschedpolicy(&attrs, &policy);
-
+        
         int prio = sched_get_priority_min(policy);
         pthread_setschedprio(*(pthread_t*)_p, prio);
-
+        
     }else if ( t == FIFO )
     {
         // TODO SCHED_FIFO
     }
-    
 }
-
-Thread::~Thread()
-{
-    // TODO define what to do 
-    delete (pthread_t*) _p;
-}
-
 
 void Thread::join()
 {

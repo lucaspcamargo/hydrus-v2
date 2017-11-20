@@ -42,6 +42,7 @@ void GPS::init()
     
     static GPSTask t;
     _p.thread = new PeriodicThread(&t);
+    _p.thread->start();
 }
 
 const GPS::Message GPS::get_message_copy()

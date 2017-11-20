@@ -11,12 +11,15 @@ class Thread {
     enum Type {
         NORMAL,
         FIFO,
-        LOWPRIO
+        LOWPRIO,
+        TYPE_COUNT
     };
 
     Thread( Type t = NORMAL);
 
     ~Thread();
+    
+    void start();
 
     virtual int main() = 0;
 

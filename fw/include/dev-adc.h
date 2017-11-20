@@ -57,7 +57,11 @@ private:
         
         if(!write_register( 0x01, config ))
         {
+            static bool failed_once = false;
+            if(failed_once)
+                return;
             P::Logger::log("adc", "configuration failed");
+            failed_once = true;
         }
     }
     
