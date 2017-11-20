@@ -206,6 +206,8 @@ public:
     
     std::string unqueueMessage()
     {
+        P::MutexLock l(_mutex);
+        
         std::string ret;
         
         if(_msgs.size())
@@ -224,6 +226,8 @@ public:
     
     void queueLog(std::string l)
     {
+        P::MutexLock lock(_mutex);
+        
         _logs.push(l);
     }
     

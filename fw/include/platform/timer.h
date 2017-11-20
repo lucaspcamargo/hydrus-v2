@@ -12,7 +12,7 @@ public:
     
     /**
      * @brief wait for the next tick
-     * @returns false if there was a timeout
+     * @returns false if there was a timeout already
      */
     bool wait();
     

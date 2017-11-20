@@ -39,13 +39,6 @@ template<> struct Traits< CommTask >
     static const uint64_t THREAD_INTERVAL_us = 1000000ul / TASK_FREQ;
 };
 
-
-template<> struct Traits< I2CBus >
-{
-    static const uint64_t TASK_FREQ = 10;
-    static const uint64_t THREAD_INTERVAL_us = 1000000ul / TASK_FREQ;
-};
-
 template<> struct Traits< ADC >
 {
     static const uint8_t I2C_ADDRESS = 0x48; // 72
@@ -93,14 +86,14 @@ template<> struct Traits< Motors >
 
 template<> struct Traits< PHSensor >
 {
-    static constexpr float VOLTAGE_OFFSET = 1.65f; // 1.25f original, 1.65f alt board
-    static constexpr float SLOPE_PH_PER_VOLT = 100.0f;
+    static constexpr float VOLTAGE_OFFSET = 1.63f; // 1.25f original, 1.63f alt board
+    static constexpr float SLOPE_PH_PER_VOLT = -(1.0f / 0.060f); // usually 60mV equals to -1pH from 7
 };
 
 template<> struct Traits< TemperatureSensor >
 {
     static constexpr float VOLTAGE_OFFSET = 1.25f;
-    static constexpr float SLOPE_CELSIUS_PER_VOLT = 100.0f;
+    static constexpr float SLOPE_CELSIUS_PER_VOLT = 1;
 };
 
 template<> struct Traits< TurbiditySensor >

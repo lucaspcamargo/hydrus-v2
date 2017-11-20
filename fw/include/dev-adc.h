@@ -44,11 +44,6 @@ public:
         return ret;
     }
     
-    float get_alpha( int channel )
-    {
-        return float(get(channel)) / Tr::MAX_VALUE;
-    }
-    
     float get_volts( int channel )
     {
         return get(channel) * Tr::VOLTS_PER_LSB;

@@ -71,22 +71,7 @@ public:
         
         return R * c;
     }
-    /*
-     * These arguments are taken in degrees
-     */
-    nav_f_t calcDistanceDumb_m(nav_f_t lonA, nav_f_t latA, nav_f_t lonB, nav_f_t latB)
-    {
-        
-//         std::stringstream ss;
-//         ss << lonA << " " << latA << " ";
-//         ss << lonB << " " << latB << " ";
-//         Util::log("NAVCONTROL", ss.str().c_str());
-        
-        nav_f_t delta_lat = deg2rad(latB-latA);
-        nav_f_t delta_lon = deg2rad(lonB-lonA);
-        
-        return Tr::earthRadius_m * (sqrt(delta_lat*delta_lat + delta_lon*delta_lon));
-    }
+
     
     /*
      * These arguments are taken in radians

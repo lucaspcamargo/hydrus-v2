@@ -3,7 +3,7 @@
 struct Waypoint
 {
     double longitude, latitude;
-    double customRadius;
+    double custom_radius;
     bool acquire;
 };
 

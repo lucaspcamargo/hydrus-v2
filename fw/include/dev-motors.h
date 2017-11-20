@@ -20,7 +20,7 @@ public:
         
     }
     
-    int calculateCycle(float alpha)
+    int calculate_cycle(float alpha)
     {
         uint32_t maxValue = Tr::MAX_PERIOD;
         uint32_t minValue = Tr::MIN_PERIOD + Tr::MIN_DEADBAND;
@@ -39,8 +39,8 @@ public:
         BBro->trans.begin();    
         if(BBro->nav.motor.enabled || !(Tr::SIM_MODE_DISABLES_MOTORS && BBro->nav.simMode))
         {
-            pwmL = calculateCycle(BBro->nav.motor.spdL * Tr::MOTOR_FACTOR_L);
-            pwmR = calculateCycle(BBro->nav.motor.spdR * Tr::MOTOR_FACTOR_R);
+            pwmL = calculate_cycle(BBro->nav.motor.spdL * Tr::MOTOR_FACTOR_L);
+            pwmR = calculate_cycle(BBro->nav.motor.spdR * Tr::MOTOR_FACTOR_R);
         }
         BBro->trans.end();
         

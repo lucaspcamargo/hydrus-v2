@@ -9,9 +9,6 @@ class SensingTask;
 class NavigationTask;
 class CommTask;
 
-// hardware
-class I2CBus;
-
 // devices
 class ADC;
 class GPS;

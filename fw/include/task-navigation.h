@@ -25,7 +25,7 @@ public:
     NavigationTask() : Task()
     {
         GPS::init();    
-        bzero(&p_gpsm, sizeof(p_gpsm));
+        bzero(&m_gps_msg, sizeof(m_gps_msg));
     }
         
     
@@ -34,7 +34,7 @@ public:
         bool gpsDirty = false;
         if(GPS::has_message())
         {
-            p_gpsm = GPS::get_message_copy();
+            m_gps_msg = GPS::get_message_copy();
             gpsDirty = true;
         }
         
@@ -77,9 +77,9 @@ public:
         {
             BB->trans.begin();
             
-            BB->nav.gpsHasFix = p_gpsm.fix;
-            BB->nav.gpsLat = p_gpsm.lat;
-            BB->nav.gpsLon = p_gpsm.lon;
+            BB->nav.gpsHasFix = m_gps_msg.fix;
+            BB->nav.gpsLat = m_gps_msg.lat;
+            BB->nav.gpsLon = m_gps_msg.lon;
             
             BB->trans.end();
             
@@ -98,23 +98,23 @@ public:
     {    
         if(Util::startsWith("$NAVROUTE,", cmd))
         {
-            parseRoute(cmd);
+            parse_route(cmd);
         }
         
-        if(Util::startsWith("$NAVROUTE,", cmd))
+        if(Util::startsWith("$NAVBEGIN,", cmd))
         {
-            beginNavigation();
+            begin_navigation();
         }
     }    
     
 private:
     
-    bool validateRoute(const Waypoints & wps)
+    bool validate_route(const Waypoints & wps)
     {
         return wps.size() > 1; // more complex logic can be put here      
     }
     
-    void parseRoute(const char *cmd)
+    void parse_route(const char *cmd)
     {      
         std::string routecmd(cmd);        
         stringvec_t tok;
@@ -130,7 +130,7 @@ private:
             w.longitude = Util::parseDouble(tok[idx]);
             w.latitude = Util::parseDouble(tok[idx+1]);
             w.acquire = tok[idx+2].size() > 0;
-            w.customRadius = -1;
+            w.custom_radius = -1;
             
             wps.push_back(w);
             
@@ -145,7 +145,7 @@ private:
             
         }
         
-        if(validateRoute(wps))
+        if(validate_route(wps))
         {
             m_waypoints = wps;
             P::Logger::log("nav", "Received new route");
@@ -158,7 +158,7 @@ private:
         
     }
 
-    void beginNavigation()
+    void begin_navigation()
     {        
         // check navigation state here
         
@@ -185,7 +185,7 @@ private:
         m_controller.setup(m_waypoints);
     }
     
-    GPS::Message p_gpsm;
+    GPS::Message m_gps_msg;
     Motors m_motors;
     
     NavController m_controller;

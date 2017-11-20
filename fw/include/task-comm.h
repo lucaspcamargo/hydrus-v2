@@ -17,28 +17,28 @@ public:
     
     typedef Traits< CommTask > Tr;
     
-    CommTask(Task &navTask) : Task(), _nav(navTask)
+    CommTask(Task &navTask) : Task(), m_nav_task(navTask)
     {
         P::Logger::register_listener(this);
     }        
     
     virtual bool tick() override 
     {
-        _st.tick();
+        m_st.tick();
         
-        if(BB->comm.connected != _st.connected())
+        if(BB->comm.connected != m_st.connected())
         {
             BB->trans.begin();
-            BB->comm.connected = _st.connected();
+            BB->comm.connected = m_st.connected();
             BB->trans.end();
         }
         
         std::string msg;
-        while(_st.hasMessages())
+        while(m_st.hasMessages())
         {
-            msg = _st.unqueueMessage();
+            msg = m_st.unqueueMessage();
             
-            route(msg);
+            route_command(msg);
         }
         
         return true; // keep running
@@ -62,12 +62,12 @@ public:
         logline.append(": ");
         logline.append(what);
         
-        _st.queueLog(logline);
+        m_st.queueLog(logline);
     }
     
 private:
     
-    void route(const std::string & msg)
+    void route_command(const std::string & msg)
     {
         P::Logger::log("comm|recv", msg.c_str());
         
@@ -127,7 +127,7 @@ private:
         
         if(!msg.find("$NAV"))
         {
-            _nav.process_command(msg.c_str());
+            m_nav_task.process_command(msg.c_str());
         }
         
         // TODO restore rounting of these commands
@@ -148,8 +148,8 @@ private:
         
     }
     
-    Station _st;
-    Task &_nav;
+    Station m_st;
+    Task &m_nav_task;
 };
 
 __HYDRUS_END

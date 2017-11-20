@@ -13,7 +13,7 @@ public:
     
     void set(float alpha)    // set by alpha value [0..1]
     {
-        set( ((1 << bits()) - 1) * alpha );
+        set( (uint32_t) (((1 << bits()) - 1) * alpha) );
     }
     
     void set(uint32_t value); // set by integer number
