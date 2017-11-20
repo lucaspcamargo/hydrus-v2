@@ -86,22 +86,45 @@ template<> struct Traits< Motors >
 
 template<> struct Traits< PHSensor >
 {
-    static constexpr float VOLTAGE_OFFSET = 1.82f; // calib value
-    static constexpr float SLOPE_PH_PER_VOLT = -(1.0f / 0.060f); // usually 60mV equals to -1pH from 7
+    //
+    //  CALIBRATION - Blue Probe - 20/11/17
+    //  Tenv = 25°C
+    //  Buffer solution: pH 7.0 -- 1.82 V
+    //  Buffer solution: pH 4.0 -- 1.99 V
     
-    static const bool      CALIBRATION_MODE = false;
+    // voltage at pH = 7.0
+    static constexpr float VOLTAGE_OFFSET = 1.82f; 
+    
+    // usually 60mV equals to -1pH from 7.0, this should be close to -16.666...
+    static constexpr float SLOPE_PH_PER_VOLT = -17.64f; // 3 / (1.82 - 1.99)
+    
+    // this lets out the raw voltage as the pH value
+    static const bool      CALIBRATION_MODE = false; 
 };
 
 template<> struct Traits< TemperatureSensor >
 {
+    // from TMP36 datasheet
     static constexpr float VOLTAGE_OFFSET = 0.5f;
     static constexpr float SLOPE_CELSIUS_PER_VOLT = 100.0f;
 };
 
 template<> struct Traits< TurbiditySensor >
 {
-    inline static float formula_ntu( float volts ) { return volts; };
+    
+    // TSW-10
+    // linear regression from datasheet graph
+    // a  261.0545
+    // b -2607.58
+    // c  6366.978
+    // y = axx + bx + c
+    // inline static float formula_ntu( float volts ) { return 261.0545f * volts * volts - 2607.58f * volts + 6366.978f; };
+    
+    // TSD-10
+    inline static float formula_ntu( float volts ) { return 321.26406f * volts * volts - 3080.3167f * volts + 7286.1582f; };
 };
+
+
 
 template<> struct Traits< BatterySensor >
 {

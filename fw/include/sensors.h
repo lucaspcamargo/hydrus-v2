@@ -1,4 +1,5 @@
 #include "hydrus-config.h"
+#include <cmath>
 
 __HYDRUS_BEGIN
 
@@ -64,7 +65,7 @@ class TurbiditySensor : public Sensor
 public:
     TurbiditySensor() {}
     
-    virtual float convert( float reading_volts ) override {return Tr::formula_ntu(reading_volts);}
+    virtual float convert( float reading_volts ) override {return fmax(Tr::formula_ntu(2.0f * reading_volts), 0.0f);}
     
 };
 
