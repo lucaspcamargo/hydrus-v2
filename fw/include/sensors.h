@@ -25,9 +25,9 @@ public:
         float raw;
         if(Tr::CALIBRATION_MODE)
         {
-            raw = 7.0f + (reading_volts - Tr::VOLTAGE_OFFSET) * Tr::SLOPE_PH_PER_VOLT;
-        }else{
             raw = reading_volts;
+        }else{
+            raw = 7.0f + (reading_volts - Tr::VOLTAGE_OFFSET) * Tr::SLOPE_PH_PER_VOLT;
         }
         
             
