@@ -111,7 +111,6 @@ template<> struct Traits< TemperatureSensor >
 
 template<> struct Traits< TurbiditySensor >
 {
-    
     // TSW-10
     // linear regression from datasheet graph
     // a  261.0545
@@ -122,6 +121,7 @@ template<> struct Traits< TurbiditySensor >
     
     // TSD-10
     inline static float formula_ntu( float volts ) { return 321.26406f * volts * volts - 3080.3167f * volts + 7286.1582f; };
+
 };
 
 
